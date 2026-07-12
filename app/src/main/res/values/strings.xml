@@ -65,8 +65,8 @@
     <string name="transaction_saved">%1$s saved (सहेजा गया %1$s)</string>
     <string name="enter_valid_amount">Enter a valid amount (एक वैध राशि दर्ज करें)</string>
     <string name="enter_reason">Please enter a reason for adjustment (समायोजन का कारण दर्ज करें)</string>
-    <string name="preview_previous">Previous: ₹%1$.2f (पहले का: ₹%1$.2f)</string>
-    <string name="preview_new">New Balance: ₹%1$.2f (नया बकाया: ₹%1$.2f)</string>
+    <string name="preview_previous">Previous: ₹%,.2f (पहले का: ₹%,.2f)</string>
+    <string name="preview_new">New balance: ₹%,.2f (नया बकाया: ₹%,.2f)</string>
 
     <!-- SearchFragment / Quick Entry -->
     <string name="quick_entry_title">Quick Entry (त्वरित प्रविष्टि)</string>
