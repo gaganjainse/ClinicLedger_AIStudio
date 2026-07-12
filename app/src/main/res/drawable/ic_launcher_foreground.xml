@@ -1,20 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    
+    <!-- Outer elegant ring representing healthcare halo / ecosystem -->
     <path
-        android:fillColor="#006D40"
-        android:pathData="M54,30 L54,78 M30,54 L78,54 M38,38 L70,70 M70,38 L38,70"
-        android:strokeWidth="4"
-        android:strokeColor="#006D40" />
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M54,20 A34,34 0 1 1 53.9,20" />
+
+    <!-- Modern Clinic Ledger Tablet/Notebook Container -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M44,38 L54,28 L64,38 L64,68 L44,68 Z" />
+        android:pathData="M38,32 h32 a4,4 0 0 1 4,4 v36 a4,4 0 0 1 -4,4 h-32 a4,4 0 0 1 -4,-4 v-36 a4,4 0 0 1 4,-4 Z" />
+
+    <!-- Sleek medical cross on the ledger -->
     <path
-        android:strokeWidth="2"
-        android:strokeColor="#006D40"
-        android:fillColor="#00000000"
-        android:pathData="M54,28 L54,68 M44,38 L64,38" />
+        android:fillColor="#6366F1"
+        android:pathData="M51,40 h6 v18 h-6 z" />
+    <path
+        android:fillColor="#6366F1"
+        android:pathData="M45,46 h18 v6 h-18 z" />
+        
+    <!-- Sleek ledger lines indicating transaction entries -->
+    <path
+        android:fillColor="#0EA5E9"
+        android:pathData="M44,62 h20 v2 h-20 z" />
+    <path
+        android:fillColor="#0EA5E9"
+        android:pathData="M44,66 h14 v2 h-14 z" />
 </vector>

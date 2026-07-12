@@ -77,21 +77,21 @@
     <string name="voice_balance_title">रोगी मिला</string>
     <string name="voice_open">खोलें</string>
     <string name="voice_not_found">रोगी नहीं मिला: %s</string>
-    <string name="voice_balance_spoken">%1$s पर %2$s रुपये बकाया हैं</string>
-    <string name="voice_not_found_spoken">%s नहीं मिले</string>
-    <string name="voice_confirm_question">सही है?</string>
-    <string name="voice_saved">सेव हो गया</string>
-    <string name="voice_try_again">ठीक है, फिर से बोलो</string>
-    <string name="voice_ask_medicine_amount">कितने की दवा?</string>
-    <string name="voice_ask_payment_amount">कितने पैसे दिए?</string>
-    <string name="voice_disambiguation">दो %1$s हैं। %2$s या %3$s?</string>
-    <string name="voice_correction_done">पिछली एंट्री हटा दी। नया बकाया: ₹%s</string>
-    <string name="voice_new_patient_confirm">नया रोगी %1$s, गाँव %2$s। सही है?</string>
-    <string name="voice_medicine_confirmation">%1$s की दवा ₹%2$s। नया बकाया ₹%3$s। सही है?</string>
-    <string name="voice_payment_confirmation">%1$s से ₹%2$s जमा। बकाया ₹%3$s। सही है?</string>
-    <string name="voice_medicine_payment_confirmation">%1$s की दवा ₹%2$s। ₹%3$s जमा। कुल बकाया ₹%4$s। सही है?</string>
-    <string name="voice_listening_hint">बोलें — दवा, भुगतान, या किसी का बकाया देखें</string>
-    <string name="voice_mic_hold_hint">माइक 5 सेकंड तक सुनेगा। \"हाँ\" या \"नहीं\" बोलें</string>
+    <string name="voice_balance_spoken">%1$s के खाते में %2$s रुपये बकाया हैं।</string>
+    <string name="voice_not_found_spoken">कृपया ध्यान दें, %s नाम का कोई रोगी नहीं मिला।</string>
+    <string name="voice_confirm_question">क्या यह सारी जानकारी सही है?</string>
+    <string name="voice_saved">लेनदेन सफलतापूर्वक सुरक्षित कर लिया गया है।</string>
+    <string name="voice_try_again">कोई बात नहीं, कृपया नए सिरे से दोबारा बोलें।</string>
+    <string name="voice_ask_medicine_amount">कृपया दवा की कुल राशि बताइए?</string>
+    <string name="voice_ask_payment_amount">कृपया प्राप्त भुगतान राशि बताइए?</string>
+    <string name="voice_disambiguation">मुझे इस नाम के दो रोगी मिले हैं। %2$s गाँव के %1$s या %3$s के?</string>
+    <string name="voice_correction_done">आपकी पिछली प्रविष्टि सफलतापूर्वक हटा दी गई है। नया बकाया ₹%s है।</string>
+    <string name="voice_new_patient_confirm">नया रोगी %1$s, जिनका गाँव %2$s है। क्या इन्हें जोड़ दिया जाए?</string>
+    <string name="voice_medicine_confirmation">%1$s के लिए ₹%2$s की दवा दर्ज की जा रही है। नया बकाया ₹%3$s हो जाएगा। क्या सही है?</string>
+    <string name="voice_payment_confirmation">%1$s से ₹%2$s प्राप्त हुए हैं। नया बकाया ₹%3$s बचेगा। क्या यह सही है?</string>
+    <string name="voice_medicine_payment_confirmation">%1$s के लिए ₹%2$s की दवा और ₹%3$s प्राप्त हुए हैं। नया बकाया ₹%4$s हो जाएगा। क्या यह सही है?</string>
+    <string name="voice_listening_hint">बोलें, जैसे \"रमेश को २०० की दवा दी\" या \"सुरेश का बकाया बताएं\"</string>
+    <string name="voice_mic_hold_hint">सही होने पर \"हाँ\" बोलें, बदलने के लिए \"नहीं\" बोलें</string>
 
     <!-- BackupActivity -->
     <string name="exported_to">निर्यात किया गया: %s</string>

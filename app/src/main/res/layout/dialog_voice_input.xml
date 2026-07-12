@@ -4,31 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="28dp"
+    android:background="@drawable/dialog_rounded_bg"
     android:gravity="center_horizontal">
+
+    <!-- Premium top handle indicator for Bottom Sheet -->
+    <View
+        android:layout_width="48dp"
+        android:layout_height="4dp"
+        android:layout_marginBottom="20dp"
+        android:background="#CBD5E1"
+        android:backgroundTint="?attr/colorOutline" />
 
     <FrameLayout
         android:id="@+id/micContainer"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="8dp">
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp">
 
+        <!-- Outer glowing pulsing rings -->
         <View
             android:id="@+id/micPulse"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:background="@drawable/circle_pulse" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/voiceMicButton"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
             android:layout_gravity="center"
             android:contentDescription="Mic"
             android:src="@android:drawable/ic_btn_speak_now"
-            app:backgroundTint="@color/md_theme_light_primary"
-            app:tint="@color/md_theme_light_onPrimary"
-            app:fabSize="normal" />
+            app:backgroundTint="?attr/colorPrimary"
+            app:tint="?attr/colorOnPrimary"
+            app:fabCustomSize="84dp"
+            app:maxImageSize="42dp"
+            app:elevation="8dp" />
 
     </FrameLayout>
 
@@ -38,31 +51,337 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="@string/voice_listening_hint"
-        android:textSize="14sp"
-        android:textColor="@color/md_theme_light_onSurfaceVariant"
-        android:textStyle="bold" />
+        android:textSize="16sp"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        android:gravity="center" />
+
+    <!-- Live Node-RED Style Pipeline Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/pipelineCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:cardBackgroundColor="?attr/colorSurfaceVariant">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@android:drawable/ic_menu_compass"
+                    app:tint="?attr/colorPrimary"
+                    android:layout_marginEnd="6dp"
+                    android:contentDescription="Compass Icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LIVE PIPELINE MONITOR (NODE-RED STYLE)"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05"
+                    android:textColor="?attr/colorPrimary" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:overScrollMode="never">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="4dp">
+
+                    <!-- Node 1: MIC -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/nodeAudio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="?attr/colorOutline"
+                        app:contentPadding="8dp"
+                        app:cardBackgroundColor="?attr/colorSurface">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            <View
+                                android:id="@+id/dotAudio"
+                                android:layout_width="8dp"
+                                android:layout_height="8dp"
+                                android:background="@drawable/dot_gray"
+                                android:layout_marginEnd="6dp" />
+                            <TextView
+                                android:id="@+id/textAudio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Audio Mic"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Connector -->
+                    <TextView
+                        android:id="@+id/arrowAudio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" ──▶ "
+                        android:textSize="11sp"
+                        android:textColor="?attr/colorOutline" />
+
+                    <!-- Node 2: STT -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/nodeStt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="?attr/colorOutline"
+                        app:contentPadding="8dp"
+                        app:cardBackgroundColor="?attr/colorSurface">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            <View
+                                android:id="@+id/dotStt"
+                                android:layout_width="8dp"
+                                android:layout_height="8dp"
+                                android:background="@drawable/dot_gray"
+                                android:layout_marginEnd="6dp" />
+                            <TextView
+                                android:id="@+id/textStt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Speech Rec"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Connector -->
+                    <TextView
+                        android:id="@+id/arrowStt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" ──▶ "
+                        android:textSize="11sp"
+                        android:textColor="?attr/colorOutline" />
+
+                    <!-- Node 3: NLP -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/nodeNlp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="?attr/colorOutline"
+                        app:contentPadding="8dp"
+                        app:cardBackgroundColor="?attr/colorSurface">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            <View
+                                android:id="@+id/dotNlp"
+                                android:layout_width="8dp"
+                                android:layout_height="8dp"
+                                android:background="@drawable/dot_gray"
+                                android:layout_marginEnd="6dp" />
+                            <TextView
+                                android:id="@+id/textNlp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Intent NLP"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Connector -->
+                    <TextView
+                        android:id="@+id/arrowNlp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" ──▶ "
+                        android:textSize="11sp"
+                        android:textColor="?attr/colorOutline" />
+
+                    <!-- Node 4: Decision Match -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/nodeDecision"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="?attr/colorOutline"
+                        app:contentPadding="8dp"
+                        app:cardBackgroundColor="?attr/colorSurface">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            <View
+                                android:id="@+id/dotDecision"
+                                android:layout_width="8dp"
+                                android:layout_height="8dp"
+                                android:background="@drawable/dot_gray"
+                                android:layout_marginEnd="6dp" />
+                            <TextView
+                                android:id="@+id/textDecision"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Patient Match"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Connector -->
+                    <TextView
+                        android:id="@+id/arrowDecision"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" ──▶ "
+                        android:textSize="11sp"
+                        android:textColor="?attr/colorOutline" />
+
+                    <!-- Node 5: DB Commit -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/nodeDb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="?attr/colorOutline"
+                        app:contentPadding="8dp"
+                        app:cardBackgroundColor="?attr/colorSurface">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            <View
+                                android:id="@+id/dotDb"
+                                android:layout_width="8dp"
+                                android:layout_height="8dp"
+                                android:background="@drawable/dot_gray"
+                                android:layout_marginEnd="6dp" />
+                            <TextView
+                                android:id="@+id/textDb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ledger Save"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Connector -->
+                    <TextView
+                        android:id="@+id/arrowDb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" ──▶ "
+                        android:textSize="11sp"
+                        android:textColor="?attr/colorOutline" />
+
+                    <!-- Node 6: Voice Speaker -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/nodeTts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="?attr/colorOutline"
+                        app:contentPadding="8dp"
+                        app:cardBackgroundColor="?attr/colorSurface">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            <View
+                                android:id="@+id/dotTts"
+                                android:layout_width="8dp"
+                                android:layout_height="8dp"
+                                android:background="@drawable/dot_gray"
+                                android:layout_marginEnd="6dp" />
+                            <TextView
+                                android:id="@+id/textTts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TTS Speak"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/recognizedSpeech"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="18sp"
-        android:textColor="@color/md_theme_light_onSurface"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="19sp"
+        android:textColor="?attr/colorOnSurface"
+        android:textStyle="italic"
         android:gravity="center"
         android:visibility="gone"
+        android:lineSpacingMultiplier="1.2"
         android:minLines="2" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/confirmationCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:visibility="gone"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="2dp"
-        app:contentPadding="16dp"
-        app:cardBackgroundColor="@color/md_theme_light_surfaceVariant">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="1.5dp"
+        app:strokeColor="?attr/colorPrimaryContainer"
+        app:contentPadding="20dp"
+        app:cardBackgroundColor="?attr/colorSurfaceVariant">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,26 +392,34 @@
                 android:id="@+id/confirmationTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/md_theme_light_onSurface" />
+                android:textColor="?attr/colorOnSurface"
+                android:letterSpacing="0.01" />
 
             <TextView
                 android:id="@+id/confirmationDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp"
-                android:textColor="@color/md_theme_light_onSurfaceVariant" />
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:lineSpacingMultiplier="1.1"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:background="?attr/colorOutlineVariant" />
 
             <TextView
                 android:id="@+id/confirmationBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="@color/md_theme_light_primary" />
+                android:textColor="?attr/colorPrimary" />
 
         </LinearLayout>
 
@@ -102,7 +429,7 @@
         android:id="@+id/confirmButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal"
         android:visibility="gone"
         android:weightSum="2">
@@ -112,22 +439,29 @@
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_weight="1"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="8dp"
             android:text="हाँ (Sahi Hai)"
-            android:textSize="14sp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:cornerRadius="16dp"
             app:icon="@android:drawable/ic_menu_send"
-            style="@style/Widget.Material3.Button.TonalButton" />
+            app:iconTint="?attr/colorOnPrimary"
+            style="@style/Widget.Material3.Button" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnConfirmNo"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_weight="1"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="8dp"
             android:text="नहीं (Badlo)"
-            android:textSize="14sp"
+            android:textSize="15sp"
+            android:textColor="?attr/colorError"
+            app:cornerRadius="16dp"
             app:icon="@android:drawable/ic_menu_close_clear_cancel"
-            style="@style/Widget.Material3.Button.TonalButton" />
+            app:iconTint="?attr/colorError"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:strokeColor="?attr/colorError" />
 
     </LinearLayout>
 
@@ -137,15 +471,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/voice_mic_hold_hint"
-        android:textSize="12sp"
-        android:textColor="@color/md_theme_light_outline"
+        android:textSize="13sp"
+        android:textColor="?attr/colorOutline"
         android:visibility="gone" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/voiceProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:visibility="gone"
-        app:indicatorSize="24dp" />
+        app:indicatorSize="28dp"
+        app:trackThickness="3dp"
+        app:indicatorColor="?attr/colorPrimary" />
 
 </LinearLayout>

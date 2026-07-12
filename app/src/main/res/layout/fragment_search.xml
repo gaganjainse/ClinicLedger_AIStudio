@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://tools.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_theme_light_surface"
+    android:background="?attr/colorSurface"
     tools:context=".ui.search.SearchFragment">
 
+    <!-- Premium Custom Top Header -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/md_theme_light_surface"
-        android:elevation="4dp"
+        android:layout_height="64dp"
+        android:background="?attr/colorSurface"
+        android:elevation="0dp"
+        app:title="@string/search_title"
+        app:titleTextColor="?attr/colorOnSurface"
+        app:titleCentered="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Search Patients"
-        app:titleTextColor="@color/md_theme_light_onSurface" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Thin Divider beneath the Fragment Toolbar -->
+    <View
+        android:id="@+id/searchHeaderDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorOutlineVariant"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <!-- Search Input Layout with Premium Card Styling -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchInputLayout"
         android:layout_width="0dp"
@@ -27,13 +38,21 @@
         android:hint="@string/search_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/searchHeaderDivider"
         app:startIconDrawable="@android:drawable/ic_menu_search"
+        app:startIconTint="?attr/colorPrimary"
         app:endIconMode="custom"
         app:endIconDrawable="@android:drawable/ic_btn_speak_now"
-        app:boxBackgroundColor="@color/md_theme_light_surfaceVariant"
-        app:hintTextColor="@color/md_theme_light_onSurfaceVariant"
-        app:endIconTint="@color/md_theme_light_primary">
+        app:endIconTint="?attr/colorPrimary"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeColor="?attr/colorPrimary"
+        app:boxBackgroundColor="?attr/colorSurfaceVariant"
+        app:hintTextColor="?attr/colorPrimary"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchEditText"
@@ -42,23 +61,102 @@
             android:inputType="text"
             android:minHeight="56dp"
             android:padding="16dp"
-            android:textColor="@color/md_theme_light_onSurface"
-            android:textColorHint="@color/md_theme_light_onSurfaceVariant" />
+            android:textColor="?attr/colorOnSurface"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
+            android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Premium Horizontal Dashboard Actions Row -->
+    <HorizontalScrollView
+        android:id="@+id/actionsScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/searchInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="4dp"
+            android:gravity="center_vertical">
+
+            <!-- Action 1: Add Patient -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDashboardAddPatient"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:text="रोगी जोड़े (Add Patient)"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconTint="?attr/colorPrimary"
+                app:cornerRadius="12dp"
+                style="@style/Widget.Material3.Button.TonalButton" />
+
+            <!-- Action 2: Quick Entry -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDashboardQuickEntry"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:text="त्वरित प्रविष्टि (Quick Entry)"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:icon="@android:drawable/ic_menu_edit"
+                app:iconTint="?attr/colorPrimary"
+                app:cornerRadius="12dp"
+                style="@style/Widget.Material3.Button.TonalButton" />
+
+            <!-- Action 3: Analytics -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDashboardAnalytics"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:text="विश्लेषण (Stats)"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:icon="@android:drawable/ic_menu_compass"
+                app:iconTint="?attr/colorPrimary"
+                app:cornerRadius="12dp"
+                style="@style/Widget.Material3.Button.TonalButton" />
+
+            <!-- Action 4: Villages -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDashboardVillages"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="गाँव (Villages)"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:icon="@android:drawable/ic_menu_myplaces"
+                app:iconTint="?attr/colorPrimary"
+                app:cornerRadius="12dp"
+                style="@style/Widget.Material3.Button.TonalButton" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Search Results RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchResultsRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
         android:clipToPadding="false"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:paddingBottom="84dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/actionsScrollView"
         tools:listitem="@layout/item_patient_search" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -70,21 +168,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:indicatorSize="36dp" />
+        app:indicatorSize="36dp"
+        app:indicatorColor="?attr/colorPrimary" />
 
+    <!-- Elegant, modern empty state card -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/emptyStateView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="32dp"
+        android:layout_margin="24dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="@color/md_theme_light_surfaceVariant"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="2dp">
+        app:cardBackgroundColor="?attr/colorSurfaceVariant"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="?attr/colorOutlineVariant">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,18 +196,19 @@
             android:padding="32dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/ic_search"
-                android:contentDescription="Search" />
+                app:tint="?attr/colorPrimary"
+                android:contentDescription="Search Icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/empty_state_title"
-                android:textColor="@color/md_theme_light_onSurfaceVariant"
-                android:textSize="16sp"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -113,23 +216,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/empty_state_message"
-                android:textColor="@color/md_theme_light_onSurfaceVariant"
-                android:textSize="14sp" />
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp"
+                android:gravity="center" />
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabQuickEntry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:contentDescription="Quick entry"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:backgroundTint="@color/md_theme_light_primary"
-        app:tint="@color/md_theme_light_onPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

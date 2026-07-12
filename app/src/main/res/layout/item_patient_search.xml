@@ -2,27 +2,36 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://tools.android.com/apk/res/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardBackgroundColor="@color/md_theme_light_surface"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="?attr/colorOutlineVariant"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:gravity="center_vertical">
 
+        <!-- Beautiful custom rounded patient profile avatar -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/patientImageView"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop"
             android:background="@drawable/ic_patient_placeholder"
-            android:contentDescription="Patient" />
+            android:contentDescription="Patient Avatar"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CircleImage" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -30,65 +39,94 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <!-- Name of patient -->
             <TextView
                 android:id="@+id/patientNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="John Doe"
-                android:textColor="@color/md_theme_light_onSurface"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:letterSpacing="-0.01"
+                tools:text="Ramesh Kumar" />
 
-            <TextView
-                android:id="@+id/villageTextView"
+            <!-- Village badge container -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Village"
-                android:textColor="@color/md_theme_light_onSurfaceVariant"
-                android:textSize="14sp" />
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal"
+                android:background="@drawable/badge_bg"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:gravity="center_vertical">
+
+                <!-- Little village icon -->
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginEnd="4dp"
+                    android:src="@android:drawable/ic_menu_myplaces"
+                    app:tint="?attr/colorPrimary"
+                    android:contentDescription="Village" />
+
+                <TextView
+                    android:id="@+id/villageTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="Siras" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/familyGroupTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Family Group"
-                android:textColor="@color/md_theme_light_primary"
+                android:layout_marginTop="6dp"
+                android:textColor="?attr/colorSecondary"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:text="Family: Sharma" />
 
+            <!-- Phone container -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:orientation="horizontal"
                 android:id="@+id/phoneLayout"
-                android:visibility="gone">
+                android:visibility="gone"
+                android:gravity="center_vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_marginEnd="4dp"
                     android:src="@android:drawable/ic_menu_call"
+                    app:tint="?attr/colorOnSurfaceVariant"
                     android:contentDescription="Phone" />
 
                 <TextView
                     android:id="@+id/phoneTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+1234567890"
-                    android:textColor="@color/md_theme_light_onSurfaceVariant"
-                    android:textSize="12sp" />
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="13sp"
+                    tools:text="+91 98765 43210" />
 
             </LinearLayout>
 
+            <!-- Outstanding balance row -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/balanceLabelTextView"
@@ -96,28 +134,31 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:text="@string/balance_label"
-                    android:textColor="@color/md_theme_light_onSurfaceVariant"
-                    android:textSize="12sp" />
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/balanceAmountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$0.00"
-                    android:textColor="@color/md_theme_light_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="₹1,250" />
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <!-- Dynamic detail forward arrow -->
         <ImageView
             android:id="@+id/arrowIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/arrow_right"
+            app:tint="?attr/colorOnSurfaceVariant"
+            android:alpha="0.5"
             android:contentDescription="View details" />
 
     </LinearLayout>

@@ -21,7 +21,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.villageclinicledger.R
 import com.villageclinicledger.data.models.Patient
 import com.villageclinicledger.data.models.Transaction
+import android.content.Intent
+import com.villageclinicledger.ui.MainActivity
 import com.villageclinicledger.ui.PatientDetailFragment
+import com.villageclinicledger.ui.analytics.AnalyticsActivity
+import com.villageclinicledger.ui.villages.VillageManagementActivity
 import com.villageclinicledger.ui.search.adapter.SearchResultsAdapter
 import com.villageclinicledger.ui.search.viewmodel.SearchViewModel
 import com.villageclinicledger.voice.VoiceInputSheet
@@ -131,10 +135,21 @@ class SearchFragment : Fragment() {
         })
     }
 
-    /** FAB opens the quick-entry dialog for recording a transaction against
-     * any patient without leaving the search screen. */
+    /** Sets up the dashboard buttons to trigger Patient creation, Quick Entry,
+     * Analytics, and Village Management directly from the main dashboard screen. */
     private fun setupFab() {
-        binding.fabQuickEntry.setOnClickListener { showQuickEntryDialog() }
+        binding.btnDashboardAddPatient.setOnClickListener {
+            (requireActivity() as? MainActivity)?.showAddPatientDialog()
+        }
+        binding.btnDashboardQuickEntry.setOnClickListener {
+            showQuickEntryDialog()
+        }
+        binding.btnDashboardAnalytics.setOnClickListener {
+            startActivity(Intent(requireContext(), AnalyticsActivity::class.java))
+        }
+        binding.btnDashboardVillages.setOnClickListener {
+            startActivity(Intent(requireContext(), VillageManagementActivity::class.java))
+        }
     }
 
     /** Observes all ViewModel LiveData streams.

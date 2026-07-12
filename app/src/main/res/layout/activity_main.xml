@@ -4,20 +4,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_theme_light_surface">
+    android:background="?attr/colorSurface">
 
+    <!-- Premium top bar with slight elevation and modern typography (hidden to let fragments manage their own toolbars) -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/md_theme_light_surface"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        android:elevation="0dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/main_menu"
         app:title="@string/search_title"
-        app:titleTextColor="@color/md_theme_light_onSurface" />
+        app:titleTextColor="?attr/colorOnSurface"
+        app:titleCentered="true" />
 
+    <!-- Divider under toolbar (hidden) -->
+    <View
+        android:id="@+id/toolbarDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorOutlineVariant"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <!-- Main container for fragments -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -26,31 +40,24 @@
         app:layout_constraintBottom_toTopOf="@id/voiceBottomBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddPatient"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:contentDescription="Add patient"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toTopOf="@id/voiceBottomBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:backgroundTint="@color/md_theme_light_primary"
-        app:tint="@color/md_theme_light_onPrimary" />
-
-    <!-- Persistent bottom voice bar — always visible, opens the voice conversation sheet -->
+    <!-- Persistent sleek bottom voice assistant bar (gorgeous floating pill) -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/voiceBottomBar"
-        android:layout_width="0dp"
-        android:layout_height="72dp"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:focusable="true"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="8dp"
-        app:cardBackgroundColor="@color/md_theme_light_primaryContainer"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="6dp"
+        app:strokeWidth="1.5dp"
+        app:strokeColor="?attr/colorPrimary"
+        app:cardBackgroundColor="?attr/colorPrimaryContainer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -58,27 +65,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingHorizontal="16dp">
 
+            <!-- Micro-interaction pulsing microphone indicator -->
             <ImageView
                 android:id="@+id/voiceBarMic"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:src="@android:drawable/ic_btn_speak_now"
                 android:contentDescription="Voice"
-                android:backgroundTint="@color/md_theme_light_primary" />
+                android:padding="6dp"
+                android:background="@drawable/assistant_mic_bg"
+                android:backgroundTint="?attr/colorPrimary"
+                android:elevation="2dp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="14dp"
                 android:text="@string/voice_listening_hint"
-                android:textSize="15sp"
-                android:textColor="@color/md_theme_light_onPrimaryContainer"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnPrimaryContainer"
                 android:gravity="center_vertical" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/arrow_right"
+                android:contentDescription="Expand"
+                android:alpha="0.7"
+                app:tint="?attr/colorOnPrimaryContainer" />
 
         </LinearLayout>
 

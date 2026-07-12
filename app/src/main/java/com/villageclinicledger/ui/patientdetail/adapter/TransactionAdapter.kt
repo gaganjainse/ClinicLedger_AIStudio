@@ -49,7 +49,10 @@ class TransactionAdapter : ListAdapter<Transaction, TransactionAdapter.Transacti
 
             amountTextView.text = transaction.formattedAmount
             amountTextView.setTextColor(
-                if (transaction.isDebit) Color.RED else Color.GREEN
+                if (transaction.isDebit) 
+                    android.graphics.Color.parseColor("#E11D48") 
+                else 
+                    android.graphics.Color.parseColor("#16A34A")
             )
 
             notesTextView.text = transaction.notes.ifEmpty { "" }

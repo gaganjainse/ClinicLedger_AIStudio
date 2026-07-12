@@ -55,10 +55,6 @@ class MainActivity : AppCompatActivity() {
         loadVillages()
         BackupService.scheduleBackup(this)
 
-        binding.fabAddPatient.setOnClickListener {
-            showAddPatientDialog()
-        }
-
         binding.voiceBottomBar.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 == PackageManager.PERMISSION_GRANTED
@@ -116,7 +112,7 @@ class MainActivity : AppCompatActivity() {
     /** Shows a Material dialog to add a new patient. Provides an AutoCompleteTextView
      * populated with cached village names for the user to select from. Validates that
      * the selected village exists before saving. */
-    private fun showAddPatientDialog() {
+    fun showAddPatientDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_patient, null)
         val nameInput = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.patientNameInput)
         val phoneInput = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.patientPhoneInput)

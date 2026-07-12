@@ -79,21 +79,21 @@
     <string name="voice_balance_message">Outstanding balance: ₹%s</string>
     <string name="voice_open">Open</string>
     <string name="voice_not_found">Patient not found: %s</string>
-    <string name="voice_balance_spoken">%1$s par %2$s rupaye baki hain</string>
-    <string name="voice_not_found_spoken">%s nahi mile</string>
-    <string name="voice_confirm_question">Sahi hai?</string>
-    <string name="voice_saved">Save ho gaya</string>
-    <string name="voice_try_again">Theek hai, phir se bolo</string>
-    <string name="voice_ask_medicine_amount">Kitne ki dawa?</string>
-    <string name="voice_ask_payment_amount">Kitne paise diye?</string>
-    <string name="voice_disambiguation">Do %1$s hain. %2$s ya %3$s?</string>
-    <string name="voice_correction_done">Pichhli entry hata di. Naya baki: ₹%s</string>
-    <string name="voice_new_patient_confirm">Naya patient %1$s, gaon %2$s. Sahi hai?</string>
-    <string name="voice_medicine_confirmation">%1$s ki dawa ₹%2$s. Naya baki ₹%3$s. Sahi hai?</string>
-    <string name="voice_payment_confirmation">%1$s se ₹%2$s jama. Baki ₹%3$s. Sahi hai?</string>
-    <string name="voice_medicine_payment_confirmation">%1$s ki dawa ₹%2$s. ₹%3$s jama. Kul baki ₹%4$s. Sahi hai?</string>
-    <string name="voice_listening_hint">Bolein — dawa, payment, ya kisi ka baki dekhein</string>
-    <string name="voice_mic_hold_hint">Mic 5 second tak sunega. \"Haan\" ya \"Nahi\" bolein</string>
+    <string name="voice_balance_spoken">%1$s ke khate mein %2$s rupaye baki hain.</string>
+    <string name="voice_not_found_spoken">Kripya dhyan dein, %s naam ka koi रोगी nahi mila.</string>
+    <string name="voice_confirm_question">Kya yeh saari jaankari sahi hai?</string>
+    <string name="voice_saved">Aapka transaction safaltapoorvak surakshit kar liya gaya hai.</string>
+    <string name="voice_try_again">Theek hai, koi baat nahi. Kripya naye sire se dobara bolein.</string>
+    <string name="voice_ask_medicine_amount">Kripya dava ki kul rashi batayein?</string>
+    <string name="voice_ask_payment_amount">Kripya praapt bhugtan rashi batayein?</string>
+    <string name="voice_disambiguation">Mujhe is naam ke do log mile hain. %2$s gaon ke %1$s ya %3$s ke?</string>
+    <string name="voice_correction_done">Aapki pichhli entry safaltapoorvak hata di gayi hai. Naya baki ₹%s hai.</string>
+    <string name="voice_new_patient_confirm">Naya patient %1$s, jinka gaon %2$s hai. Kya ise jod dein?</string>
+    <string name="voice_medicine_confirmation">%1$s ke liye ₹%2$s ki dava darj ho rahi hai. Kul baki ₹%3$s ho jayega. Kya sahi hai?</string>
+    <string name="voice_payment_confirmation">%1$s se ₹%2$s praapt hue hain. Naya baki ₹%3$s bachega. Kya yeh sahi hai?</string>
+    <string name="voice_medicine_payment_confirmation">%1$s ke liye ₹%2$s ki dava aur ₹%3$s praapt hue hain. Naya baki ₹%4$s ho jayega. Kya sahi hai?</string>
+    <string name="voice_listening_hint">Bolein, jaise \"Ramesh ko 200 ki dawa di\" ya \"Suresh ka baki batayein\"</string>
+    <string name="voice_mic_hold_hint">Sahi hone par \"Haan\" bolein, badalne ke liye \"Nahi\" bolein</string>
 
     <!-- BackupActivity -->
     <string name="exported_to">Exported to: %s</string>

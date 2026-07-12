@@ -66,6 +66,7 @@ class VoiceInputSheet : BottomSheetDialogFragment() {
     private fun setState(newState: ConversationState) {
         state = newState
         val view = view ?: return
+        updatePipelineUI(view, newState)
         val micPulse = view.findViewById<View>(R.id.micPulse)
         val voiceStatus = view.findViewById<TextView>(R.id.voiceStatusText)
         val recognizedText = view.findViewById<TextView>(R.id.recognizedSpeech)
@@ -715,5 +716,121 @@ class VoiceInputSheet : BottomSheetDialogFragment() {
         ttsManager?.shutdown()
         ttsManager = null
         super.onDestroyView()
+    }
+
+    private fun setNodeState(
+        card: com.google.android.material.card.MaterialCardView,
+        dot: View,
+        text: TextView,
+        bgColor: String,
+        strokeColor: String,
+        textColor: String,
+        dotRes: Int
+    ) {
+        card.setCardBackgroundColor(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(bgColor)))
+        card.setStrokeColor(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(strokeColor)))
+        text.setTextColor(android.graphics.Color.parseColor(textColor))
+        dot.setBackgroundResource(dotRes)
+    }
+
+    private fun updatePipelineUI(view: View, newState: ConversationState) {
+        val nodeAudio = view.findViewById<com.google.android.material.card.MaterialCardView>(R.id.nodeAudio) ?: return
+        val dotAudio = view.findViewById<View>(R.id.dotAudio) ?: return
+        val textAudio = view.findViewById<TextView>(R.id.textAudio) ?: return
+
+        val nodeStt = view.findViewById<com.google.android.material.card.MaterialCardView>(R.id.nodeStt) ?: return
+        val dotStt = view.findViewById<View>(R.id.dotStt) ?: return
+        val textStt = view.findViewById<TextView>(R.id.textStt) ?: return
+
+        val nodeNlp = view.findViewById<com.google.android.material.card.MaterialCardView>(R.id.nodeNlp) ?: return
+        val dotNlp = view.findViewById<View>(R.id.dotNlp) ?: return
+        val textNlp = view.findViewById<TextView>(R.id.textNlp) ?: return
+
+        val nodeDecision = view.findViewById<com.google.android.material.card.MaterialCardView>(R.id.nodeDecision) ?: return
+        val dotDecision = view.findViewById<View>(R.id.dotDecision) ?: return
+        val textDecision = view.findViewById<TextView>(R.id.textDecision) ?: return
+
+        val nodeDb = view.findViewById<com.google.android.material.card.MaterialCardView>(R.id.nodeDb) ?: return
+        val dotDb = view.findViewById<View>(R.id.dotDb) ?: return
+        val textDb = view.findViewById<TextView>(R.id.textDb) ?: return
+
+        val nodeTts = view.findViewById<com.google.android.material.card.MaterialCardView>(R.id.nodeTts) ?: return
+        val dotTts = view.findViewById<View>(R.id.dotTts) ?: return
+        val textTts = view.findViewById<TextView>(R.id.textTts) ?: return
+
+        val styleIdle = { card: com.google.android.material.card.MaterialCardView, dot: View, text: TextView ->
+            setNodeState(card, dot, text, "#F8FAFC", "#E2E8F0", "#64748B", R.drawable.dot_gray)
+        }
+        val styleActive = { card: com.google.android.material.card.MaterialCardView, dot: View, text: TextView ->
+            setNodeState(card, dot, text, "#EFF6FF", "#3B82F6", "#1D4ED8", R.drawable.dot_blue)
+        }
+        val styleSuccess = { card: com.google.android.material.card.MaterialCardView, dot: View, text: TextView ->
+            setNodeState(card, dot, text, "#F0FDF4", "#22C55E", "#15803D", R.drawable.dot_green)
+        }
+        val styleSpeak = { card: com.google.android.material.card.MaterialCardView, dot: View, text: TextView ->
+            setNodeState(card, dot, text, "#FFF7ED", "#F97316", "#C2410C", R.drawable.dot_orange)
+        }
+        val styleError = { card: com.google.android.material.card.MaterialCardView, dot: View, text: TextView ->
+            setNodeState(card, dot, text, "#FEF2F2", "#EF4444", "#B91C1C", R.drawable.dot_red)
+        }
+
+        when (newState) {
+            ConversationState.IDLE -> {
+                styleIdle(nodeAudio, dotAudio, textAudio)
+                styleIdle(nodeStt, dotStt, textStt)
+                styleIdle(nodeNlp, dotNlp, textNlp)
+                styleIdle(nodeDecision, dotDecision, textDecision)
+                styleIdle(nodeDb, dotDb, textDb)
+                styleIdle(nodeTts, dotTts, textTts)
+            }
+            ConversationState.LISTENING -> {
+                styleActive(nodeAudio, dotAudio, textAudio)
+                styleActive(nodeStt, dotStt, textStt)
+                styleIdle(nodeNlp, dotNlp, textNlp)
+                styleIdle(nodeDecision, dotDecision, textDecision)
+                styleIdle(nodeDb, dotDb, textDb)
+                styleIdle(nodeTts, dotTts, textTts)
+            }
+            ConversationState.PROCESSING -> {
+                styleSuccess(nodeAudio, dotAudio, textAudio)
+                styleSuccess(nodeStt, dotStt, textStt)
+                styleActive(nodeNlp, dotNlp, textNlp)
+                styleActive(nodeDecision, dotDecision, textDecision)
+                styleIdle(nodeDb, dotDb, textDb)
+                styleIdle(nodeTts, dotTts, textTts)
+            }
+            ConversationState.CONFIRMING -> {
+                styleSuccess(nodeAudio, dotAudio, textAudio)
+                styleSuccess(nodeStt, dotStt, textStt)
+                styleSuccess(nodeNlp, dotNlp, textNlp)
+                styleSuccess(nodeDecision, dotDecision, textDecision)
+                styleIdle(nodeDb, dotDb, textDb)
+                styleSpeak(nodeTts, dotTts, textTts)
+            }
+            ConversationState.SAVING -> {
+                styleSuccess(nodeAudio, dotAudio, textAudio)
+                styleSuccess(nodeStt, dotStt, textStt)
+                styleSuccess(nodeNlp, dotNlp, textNlp)
+                styleSuccess(nodeDecision, dotDecision, textDecision)
+                styleActive(nodeDb, dotDb, textDb)
+                styleIdle(nodeTts, dotTts, textTts)
+            }
+            ConversationState.DONE -> {
+                styleSuccess(nodeAudio, dotAudio, textAudio)
+                styleSuccess(nodeStt, dotStt, textStt)
+                styleSuccess(nodeNlp, dotNlp, textNlp)
+                styleSuccess(nodeDecision, dotDecision, textDecision)
+                styleSuccess(nodeDb, dotDb, textDb)
+                styleSuccess(nodeTts, dotTts, textTts)
+            }
+            ConversationState.ERROR -> {
+                styleError(nodeAudio, dotAudio, textAudio)
+                styleError(nodeStt, dotStt, textStt)
+                styleIdle(nodeNlp, dotNlp, textNlp)
+                styleIdle(nodeDecision, dotDecision, textDecision)
+                styleIdle(nodeDb, dotDb, textDb)
+                styleError(nodeTts, dotTts, textTts)
+            }
+        }
     }
 }
