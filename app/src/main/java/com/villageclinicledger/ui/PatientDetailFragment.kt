@@ -21,6 +21,7 @@ import com.villageclinicledger.ui.patientdetail.adapter.AliasAdapter
 import com.villageclinicledger.ui.patientdetail.adapter.TransactionAdapter
 import com.villageclinicledger.ui.patientdetail.viewmodel.PatientDetailViewModel
 import com.villageclinicledger.databinding.FragmentPatientDetailBinding
+import com.villageclinicledger.ui.util.LayoutScaler
 
 /** Displays a single patient's details: name, village, phone, current balance,
  * a list of aliases (with long-press to delete), and a chronological list of
@@ -63,6 +64,7 @@ class PatientDetailFragment : Fragment() {
         setupRecyclerViews()
         setupClickListeners()
         observeViewModel()
+        applyScaling()
 
         val patientId = arguments?.getLong(ARG_PATIENT_ID) ?: 0
         if (patientId > 0) {
@@ -187,15 +189,66 @@ class PatientDetailFragment : Fragment() {
         val reasonLabel = dialogView.findViewById<TextView>(R.id.reasonLabel)
         val reasonInput = dialogView.findViewById<TextInputEditText>(R.id.transactionReasonInput)
 
+        val chip100 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip100)
+        val chip200 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip200)
+        val chip300 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip300)
+        val chip500 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip500)
+        val chip750 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip750)
+        val chip1000 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip1000)
+        val chipsContainer = dialogView.findViewById<android.view.View>(R.id.chipsContainer)
+
+        LayoutScaler.scaleTextSize(amountInput, 16f)
+        LayoutScaler.scaleTextSize(notesInput, 16f)
+        LayoutScaler.scaleTextSize(reasonInput, 16f)
+
         // Only adjustments require a reason — medicine charges and payments
         // use the generic notes field instead.
         if (type == "adjustment") {
             reasonLabel.visibility = View.VISIBLE
             reasonInput.visibility = View.VISIBLE
+            chipsContainer.visibility = View.GONE
         } else {
             reasonLabel.visibility = View.GONE
             reasonInput.visibility = View.GONE
+            chipsContainer.visibility = View.VISIBLE
+            val selectAmount = { amt: String ->
+                amountInput.setText(amt)
+                amountInput.setSelection(amt.length)
+            }
+            chip100.setOnClickListener { selectAmount("100") }
+            chip200.setOnClickListener { selectAmount("200") }
+            chip300.setOnClickListener { selectAmount("300") }
+            chip500.setOnClickListener { selectAmount("500") }
+            chip750.setOnClickListener { selectAmount("750") }
+            chip1000.setOnClickListener { selectAmount("1000") }
         }
+
+        // Live Balance Preview
+        val previewPrevious = dialogView.findViewById<TextView>(R.id.txtPreviewPrevious)
+        val previewNew = dialogView.findViewById<TextView>(R.id.txtPreviewNew)
+        
+        val initialBalance = viewModel.patient.value?.currentBalance ?: 0.0
+        previewPrevious.text = String.format("पहले का: ₹%,.2f", initialBalance)
+        
+        val updatePreview = {
+            val amt = amountInput.text.toString().toDoubleOrNull() ?: 0.0
+            val newBalance = when (type) {
+                "medicine" -> initialBalance + amt
+                "payment" -> initialBalance - amt
+                "adjustment" -> initialBalance + amt
+                else -> initialBalance
+            }
+            previewNew.text = String.format("नया बकाया: ₹%,.2f", newBalance)
+        }
+        updatePreview()
+
+        amountInput.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updatePreview()
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
 
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(title)
@@ -265,6 +318,41 @@ class PatientDetailFragment : Fragment() {
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
+    }
+
+    private fun applyScaling() {
+        val context = requireContext()
+        val displayMetrics = context.resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels
+        val screenHeight = displayMetrics.heightPixels
+
+        val scaleX = screenWidth.toFloat() / 1080f
+        val scaleY = screenHeight.toFloat() / 2400f
+
+        val statusBarHeight = (84 * scaleY).toInt()
+        val appBarHeight = (96 * scaleY).toInt()
+
+        // 1. Toolbar height & top margin
+        val toolbarLp = binding.toolbar.layoutParams as? ViewGroup.MarginLayoutParams
+        toolbarLp?.let {
+            it.height = appBarHeight
+            it.topMargin = statusBarHeight
+            binding.toolbar.layoutParams = it
+        }
+
+        // 2. Action buttons (Medicine, Payment, Adjustment)
+        val btnHeight = (160 * scaleY).toInt()
+        binding.btnMedicine.layoutParams?.height = btnHeight
+        binding.btnPayment.layoutParams?.height = btnHeight
+        binding.btnAdjustment.layoutParams?.height = btnHeight
+
+        // 3. Typography scaling
+        LayoutScaler.scaleTextSize(binding.patientName, 26f)
+        LayoutScaler.scaleTextSize(binding.patientVillage, 12f)
+        LayoutScaler.scaleTextSize(binding.patientPhone, 14f)
+        LayoutScaler.scaleTextSize(binding.currentBalance, 32f)
+        LayoutScaler.scaleTextSize(binding.familyGroupName, 18f)
+        LayoutScaler.scaleTextSize(binding.familyMembersSection, 14f)
     }
 
     override fun onDestroyView() {

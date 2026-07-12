@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:background="@color/md_theme_light_surface"
         app:title="@string/backup_title"
-        app:titleTextColor="@color/md_theme_light_onSurface" />
+        app:titleTextColor="@color/md_theme_light_onSurface"
+        app:navigationIcon="@android:drawable/ic_menu_revert"
+        app:navigationIconTint="@color/md_theme_light_onSurface" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

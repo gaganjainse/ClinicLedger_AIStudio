@@ -1,5 +1,5 @@
 {
-  "name": "Village Clinic Ledger",
+  "name": "Village Clinic Ledger (ग्राम क्लिनिक लेजर)",
   "description": "A ledger app for rural clinics to manage patient records, track dues and payments, use hands-free voice commands, and perform offline backup/restore.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

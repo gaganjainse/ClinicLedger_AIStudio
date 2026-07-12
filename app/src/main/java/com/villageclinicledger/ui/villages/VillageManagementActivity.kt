@@ -15,6 +15,7 @@ import com.villageclinicledger.R
 import com.villageclinicledger.data.models.Village
 import com.villageclinicledger.data.repository.PatientRepository
 import com.villageclinicledger.databinding.ActivityVillageManagementBinding
+import com.villageclinicledger.ui.util.LayoutScaler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,12 +34,35 @@ class VillageManagementActivity : AppCompatActivity() {
         binding = ActivityVillageManagementBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        applyScaling()
         repository = PatientRepository(this)
 
         setupToolbar()
         setupRecyclerView()
         setupAddButton()
         loadVillages()
+    }
+
+    private fun applyScaling() {
+        val screenHeight = resources.displayMetrics.heightPixels
+        val screenWidth = resources.displayMetrics.widthPixels
+        val scaleX = screenWidth.toFloat() / 1080f
+        val scaleY = screenHeight.toFloat() / 2400f
+
+        val statusBarHeight = (84 * scaleY).toInt()
+        val appBarHeight = (96 * scaleY).toInt()
+
+        // 1. Toolbar scaling
+        val toolbarLp = binding.toolbar.layoutParams as? ViewGroup.MarginLayoutParams
+        toolbarLp?.let {
+            it.height = appBarHeight
+            it.topMargin = statusBarHeight
+            binding.toolbar.layoutParams = it
+        }
+
+        // 2. Add Button Height scaling
+        val btnHeight = (120 * scaleY).toInt()
+        binding.btnAddVillage.layoutParams?.height = btnHeight
     }
 
     private fun setupToolbar() {
@@ -165,6 +189,10 @@ class VillageAdapter(
         private val btnDelete: com.google.android.material.button.MaterialButton = itemView.findViewById(R.id.btnDelete)
 
         fun bind(village: Village) {
+            LayoutScaler.scaleTextSize(nameView, 16f)
+            LayoutScaler.scaleTextSize(btnEdit, 14f)
+            LayoutScaler.scaleTextSize(btnDelete, 14f)
+
             nameView.text = village.name
             btnEdit.setOnClickListener { onEdit(village) }
             btnDelete.setOnClickListener { onDelete(village) }

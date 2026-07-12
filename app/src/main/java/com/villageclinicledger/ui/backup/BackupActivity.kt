@@ -12,6 +12,8 @@ import androidx.room.withTransaction
 import com.villageclinicledger.data.local.VillageClinicLedgerDatabase
 import com.villageclinicledger.R
 import com.villageclinicledger.databinding.ActivityBackupBinding
+import android.view.ViewGroup
+import com.villageclinicledger.ui.util.LayoutScaler
 import com.villageclinicledger.service.BackupService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,6 +42,7 @@ class BackupActivity : AppCompatActivity() {
         binding = ActivityBackupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        applyScaling()
         database = VillageClinicLedgerDatabase.getDatabase(this)
 
         binding.toolbar.setNavigationOnClickListener { finish() }
@@ -48,6 +51,34 @@ class BackupActivity : AppCompatActivity() {
         binding.btnImport.setOnClickListener { importLauncher.launch("application/json") }
 
         updateAutoBackupStatus()
+    }
+
+    private fun applyScaling() {
+        val screenHeight = resources.displayMetrics.heightPixels
+        val screenWidth = resources.displayMetrics.widthPixels
+        val scaleX = screenWidth.toFloat() / 1080f
+        val scaleY = screenHeight.toFloat() / 2400f
+
+        val statusBarHeight = (84 * scaleY).toInt()
+        val appBarHeight = (96 * scaleY).toInt()
+
+        // 1. Toolbar scaling
+        val toolbarLp = binding.toolbar.layoutParams as? ViewGroup.MarginLayoutParams
+        toolbarLp?.let {
+            it.height = appBarHeight
+            it.topMargin = statusBarHeight
+            binding.toolbar.layoutParams = it
+        }
+
+        // 2. Buttons height scaling
+        val btnHeight = (140 * scaleY).toInt()
+        binding.btnExport.layoutParams?.height = btnHeight
+        binding.btnImport.layoutParams?.height = btnHeight
+
+        // 3. Text size scaling
+        LayoutScaler.scaleTextSize(binding.statusText, 14f)
+        LayoutScaler.scaleTextSize(binding.autoBackupStatus, 16f)
+        LayoutScaler.scaleTextSize(binding.lastBackupText, 14f)
     }
 
     private fun updateAutoBackupStatus() {

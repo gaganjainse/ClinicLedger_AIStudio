@@ -1,136 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Hindi (hi) string resources for Village Clinic Ledger.
-
-    Mirror of values/strings.xml. Section headers must match the English file
-    to make it easy to keep the two locales in sync during translation updates.
+    Hindi (hi) string resources for Village Clinic Ledger (Overridden to use same bilingual English outside, Hindi in brackets).
 -->
 <resources>
     <!-- App-level -->
-    <string name="app_name">ग्राम क्लिनिक लेजर</string>
+    <string name="app_name">Village Clinic Ledger (ग्राम क्लिनिक लेजर)</string>
 
     <!-- Search & patient lookup -->
-    <string name="search_hint">नाम, गाँव या फोन से खोजें</string>
-    <string name="search_title">रोगियों की खोज</string>
-    <string name="empty_state_title">रोगियों की खोज करें</string>
-    <string name="empty_state_message">रोगी का नाम, गाँव या फोन दर्ज करें</string>
-    <string name="patient_details_title">रोगी विवरण</string>
-    <string name="current_balance_label">वर्तमान शेष</string>
+    <string name="search_hint">Search by name, village, or phone (नाम, गाँव या फोन से खोजें)</string>
+    <string name="search_title">Search Patients (रोगियों की खोज)</string>
+    <string name="empty_state_title">Search for patients (रोगियों की खोज करें)</string>
+    <string name="empty_state_message">Enter patient name, village, or phone (रोगी का नाम, गाँव या फोन दर्ज करें)</string>
+    <string name="patient_details_title">Patient Details (रोगी विवरण)</string>
+    <string name="current_balance_label">Current Balance (वर्तमान शेष)</string>
 
     <!-- Aliases -->
-    <string name="aliases_title">उपनाम</string>
-    <string name="add_alias_button">+ जोड़ें</string>
-    <string name="delete_alias_title">उपनाम हटाएं</string>
-    <string name="delete_alias_message">क्या आप सुनिश्चित हैं कि इस उपनाम को हटाना चाहते हैं?</string>
-    <string name="add_alias_title">उपनाम जोड़ें</string>
-    <string name="alias_hint">उपनाम दर्ज करें</string>
+    <string name="aliases_title">Aliases (उपनाम)</string>
+    <string name="add_alias_button">+ Add (+ जोड़ें)</string>
+    <string name="delete_alias_title">Delete Alias (उपनाम हटाएं)</string>
+    <string name="delete_alias_message">Are you sure you want to delete this alias? (क्या आप सुनिश्चित हैं कि इस उपनाम को हटाना चाहते हैं?)</string>
+    <string name="add_alias_title">Add Alias (उपनाम जोड़ें)</string>
+    <string name="alias_hint">Enter alias (उपनाम दर्ज करें)</string>
 
     <!-- Transactions -->
-    <string name="transaction_history_title">लेनदेन इतिहास</string>
-    <string name="medicine_type">दवा</string>
-    <string name="payment_type">भुगतान</string>
-    <string name="adjustment_type">समायोजन</string>
+    <string name="transaction_history_title">Transaction History (लेनदेन इतिहास)</string>
+    <string name="medicine_type">Medicine (दवा)</string>
+    <string name="payment_type">Payment (भुगतान)</string>
+    <string name="adjustment_type">Adjustment (समायोजन)</string>
 
     <!-- Generic action buttons (shared across screens) -->
-    <string name="delete">हटाएं</string>
-    <string name="cancel">रद्द करें</string>
-    <string name="add">जोड़ें</string>
-    <string name="save">सहेजें</string>
-    <string name="adjust_btn">समायोजन</string>
-    <string name="edit_btn">संपादित करें</string>
-    <string name="saved">सहेजा गया</string>
+    <string name="delete">Delete (हटाएं)</string>
+    <string name="cancel">Cancel (रद्द करें)</string>
+    <string name="add">Add (जोड़ें)</string>
+    <string name="save">Save (सहेजें)</string>
+    <string name="adjust_btn">Adjust (समायोजन)</string>
+    <string name="edit_btn">Edit (संपादित करें)</string>
+    <string name="saved">Saved (सहेजा गया)</string>
 
     <!-- MainActivity / Add Patient dialog -->
-    <string name="add_patient_title">रोगी जोड़ें</string>
-    <string name="name_required">नाम आवश्यक है</string>
-    <string name="patient_added">रोगी जोड़ा गया</string>
-    <string name="menu_language">भाषा</string>
-    <string name="select_language">भाषा चुनें</string>
-    <string name="lang_english">अंग्रेज़ी</string>
-    <string name="lang_hindi">हिंदी</string>
+    <string name="add_patient_title">Add Patient (रोगी जोड़ें)</string>
+    <string name="name_required">Name is required (नाम आवश्यक है)</string>
+    <string name="patient_added">Patient added (रोगी जोड़ा गया)</string>
+    <string name="menu_language">Language (भाषा)</string>
+    <string name="select_language">Select Language (भाषा चुनें)</string>
+    <string name="lang_english">English (अंग्रेज़ी)</string>
+    <string name="lang_hindi">Hindi (हिंदी)</string>
 
     <!-- VillageManagementActivity -->
-    <string name="village_added">गाँव जोड़ा गया</string>
-    <string name="edit_village_title">गाँव संपादित करें</string>
-    <string name="delete_village_title">गाँव हटाएं</string>
-    <string name="delete_village_message">क्या आप सुनिश्चित हैं कि %s को हटाना चाहते हैं?</string>
+    <string name="village_added">Village added (गाँव जोड़ा गया)</string>
+    <string name="edit_village_title">Edit Village (गाँव संपादित करें)</string>
+    <string name="delete_village_title">Delete Village (गाँव हटाएं)</string>
+    <string name="delete_village_message">Are you sure you want to delete %1$s? (क्या आप सुनिश्चित हैं कि %1$s को हटाना चाहते हैं?)</string>
 
     <!-- Family groups -->
-    <string name="family_label">परिवार: %s</string>
-    <string name="family_members_header">परिवार के सदस्य</string>
-    <string name="no_family_group">कोई परिवार समूह नहीं</string>
+    <string name="family_label">Family (परिवार): %1$s</string>
+    <string name="family_members_header">Family Members (परिवार के सदस्य)</string>
+    <string name="no_family_group">No family group (कोई परिवार समूह नहीं)</string>
 
     <!-- PatientDetailFragment / Transaction dialogs -->
-    <string name="add_medicine">दवा जोड़ें</string>
-    <string name="record_payment">भुगतान दर्ज करें</string>
-    <string name="add_adjustment">समायोजन जोड़ें</string>
-    <string name="transaction_default">लेनदेन</string>
-    <string name="transaction_saved">%s सहेजा गया</string>
-    <string name="enter_valid_amount">एक वैध राशि दर्ज करें</string>
+    <string name="add_medicine">Add Medicine (दवा जोड़ें)</string>
+    <string name="record_payment">Record Payment (भुगतान दर्ज करें)</string>
+    <string name="add_adjustment">Add Adjustment (समायोजन जोड़ें)</string>
+    <string name="transaction_default">Transaction (लेनदेन)</string>
+    <string name="transaction_saved">%1$s saved (सहेजा गया %1$s)</string>
+    <string name="enter_valid_amount">Enter a valid amount (एक वैध राशि दर्ज करें)</string>
 
     <!-- SearchFragment / Quick Entry -->
-    <string name="quick_entry_title">त्वरित प्रविष्टि</string>
-    <string name="select_patient">रोगी चुनें</string>
-    <string name="patient_not_found">रोगी नहीं मिला। पहले रोगी जोड़ें।</string>
+    <string name="quick_entry_title">Quick Entry (त्वरित प्रविष्टि)</string>
+    <string name="select_patient">Select a patient (रोगी चुनें)</string>
+    <string name="patient_not_found">Patient not found. Add patient first. (रोगी नहीं मिला। पहले रोगी जोड़ें।)</string>
 
-    <!-- Voice / TTS -->
-    <string name="voice_balance_title">रोगी मिला</string>
-    <string name="voice_open">खोलें</string>
-    <string name="voice_not_found">रोगी नहीं मिला: %s</string>
-    <string name="voice_balance_spoken">%1$s के खाते में %2$s रुपये बकाया हैं।</string>
-    <string name="voice_not_found_spoken">कृपया ध्यान दें, %s नाम का कोई रोगी नहीं मिला।</string>
-    <string name="voice_confirm_question">क्या यह सारी जानकारी सही है?</string>
-    <string name="voice_saved">लेनदेन सफलतापूर्वक सुरक्षित कर लिया गया है।</string>
-    <string name="voice_try_again">कोई बात नहीं, कृपया नए सिरे से दोबारा बोलें।</string>
-    <string name="voice_ask_medicine_amount">कृपया दवा की कुल राशि बताइए?</string>
-    <string name="voice_ask_payment_amount">कृपया प्राप्त भुगतान राशि बताइए?</string>
-    <string name="voice_disambiguation">मुझे इस नाम के दो रोगी मिले हैं। %2$s गाँव के %1$s या %3$s के?</string>
-    <string name="voice_correction_done">आपकी पिछली प्रविष्टि सफलतापूर्वक हटा दी गई है। नया बकाया ₹%s है।</string>
-    <string name="voice_new_patient_confirm">नया रोगी %1$s, जिनका गाँव %2$s है। क्या इन्हें जोड़ दिया जाए?</string>
-    <string name="voice_medicine_confirmation">%1$s के लिए ₹%2$s की दवा दर्ज की जा रही है। नया बकाया ₹%3$s हो जाएगा। क्या सही है?</string>
-    <string name="voice_payment_confirmation">%1$s से ₹%2$s प्राप्त हुए हैं। नया बकाया ₹%3$s बचेगा। क्या यह सही है?</string>
-    <string name="voice_medicine_payment_confirmation">%1$s के लिए ₹%2$s की दवा और ₹%3$s प्राप्त हुए हैं। नया बकाया ₹%4$s हो जाएगा। क्या यह सही है?</string>
-    <string name="voice_listening_hint">बोलें, जैसे \"रमेश को २०० की दवा दी\" या \"सुरेश का बकाया बताएं\"</string>
-    <string name="voice_mic_hold_hint">सही होने पर \"हाँ\" बोलें, बदलने के लिए \"नहीं\" बोलें</string>
+    <!-- Voice search / TTS spoken strings kept natural Hindi/English -->
+    <string name="voice_balance_title">Patient Found (रोगी मिला)</string>
+    <string name="voice_balance_message">Outstanding balance: ₹%1$s (बकाया राशि: ₹%1$s)</string>
+    <string name="voice_open">Open (खोलें)</string>
+    <string name="voice_not_found">Patient not found: %1$s (रोगी नहीं मिला: %1$s)</string>
+    <string name="voice_balance_spoken">%1$s ke khate mein %2$s rupaye baki hain.</string>
+    <string name="voice_not_found_spoken">Kripya dhyan dein, %s naam ka koi रोगी nahi mila.</string>
+    <string name="voice_confirm_question">Kya yeh saari jaankari sahi hai?</string>
+    <string name="voice_saved">Aapka transaction safaltapoorvak surakshit kar liya gaya hai.</string>
+    <string name="voice_try_again">Theek hai, koi baat nahi. Kripya naye sire se dobara bolein.</string>
+    <string name="voice_ask_medicine_amount">Kripya dava ki kul rashi batayein?</string>
+    <string name="voice_ask_payment_amount">Kripya praapt bhugtan rashi batayein?</string>
+    <string name="voice_disambiguation">Mujhe is naam ke do log mile hain. %2$s gaon ke %1$s ya %3$s ke?</string>
+    <string name="voice_correction_done">Aapki pichhli entry safaltapoorvak hata di gayi hai. Naya baki ₹%s hai.</string>
+    <string name="voice_new_patient_confirm">Naya patient %1$s, jinka gaon %2$s hai. Kya ise jod dein?</string>
+    <string name="voice_medicine_confirmation">%1$s ke liye ₹%2$s ki dava darj ho rahi hai. Kul baki ₹%3$s ho jayega. Kya sahi hai?</string>
+    <string name="voice_payment_confirmation">%1$s se ₹%2$s praapt hue hain. Naya baki ₹%3$s bachega. Kya yeh sahi hai?</string>
+    <string name="voice_medicine_payment_confirmation">%1$s ke liye ₹%2$s ki dava aur ₹%3$s praapt hue hain. Naya baki ₹%4$s ho jayega. Kya sahi hai?</string>
+    <string name="voice_listening_hint">Bolein (बोलें), like \"Ramesh ko 200 ki dava di\" or \"Suresh ka baki batayein\"</string>
+    <string name="voice_mic_hold_hint">Say \"Yes\" to confirm, \"No\" to change (सही होने पर \"हाँ\" बोलें, बदलने के लिए \"नहीं\" बोलें)</string>
 
     <!-- BackupActivity -->
-    <string name="exported_to">निर्यात किया गया: %s</string>
-    <string name="export_failed">निर्यात विफल: %s</string>
-    <string name="import_successful">आयात सफल!</string>
-    <string name="import_failed">आयात विफल: %s</string>
-    <string name="status_exported">सहेजा गया: %s</string>
-    <string name="status_imported">%1$d रोगी, %2$d गाँव, %3$d उपनाम, %4$d लेनदेन आयात किए गए</string>
-    <string name="backup_title">बैकअप और पुनर्स्थापना</string>
-    <string name="export_data">डेटा निर्यात करें (JSON)</string>
-    <string name="import_data">डेटा आयात करें (JSON)</string>
+    <string name="exported_to">Exported to: %1$s (निर्यात किया गया: %1$s)</string>
+    <string name="export_failed">Export failed: %1$s (निर्यात विफल: %1$s)</string>
+    <string name="import_successful">Import successful! (आयात सफल!)</string>
+    <string name="import_failed">Import failed: %1$s (आयात विफल: %1$s)</string>
+    <string name="status_exported">Saved: %1$s (सहेजा गया: %1$s)</string>
+    <string name="status_imported">Imported %1$d patients, %2$d villages, %3$d aliases, %4$d transactions (रोगी, गाँव, उपनाम, लेनदेन आयात किए गए)</string>
+    <string name="backup_title">Backup &amp; Restore (बैकअप और पुनर्स्थापना)</string>
+    <string name="export_data">Export Data (JSON) (डेटा निर्यात करें)</string>
+    <string name="import_data">Import Data (JSON) (डेटा आयात करें)</string>
 
     <!-- Auto backup -->
-    <string name="auto_backup_enabled">स्वचालित बैकअप सक्षम (दैनिक)</string>
-    <string name="auto_backup_disabled">स्वचालित बैकअप अक्षम</string>
-    <string name="last_backup">अंतिम बैकअप: %s</string>
-    <string name="no_backup_yet">अभी तक कोई बैकअप नहीं</string>
+    <string name="auto_backup_enabled">Auto backup enabled (daily) (स्वचालित बैकअप सक्षम)</string>
+    <string name="auto_backup_disabled">Auto backup disabled (स्वचालित बैकअप अक्षम)</string>
+    <string name="last_backup">Last backup: %1$s (अंतिम बैकअप: %1$s)</string>
+    <string name="no_backup_yet">No backup yet (अभी तक कोई बैकअप नहीं)</string>
 
     <!-- Analytics screen -->
-    <string name="analytics_title">विश्लेषण</string>
-    <string name="today_summary">आज</string>
-    <string name="week_summary">इस सप्ताह</string>
-    <string name="month_summary">इस महीने</string>
-    <string name="medicine_dues">दवा बकाया</string>
-    <string name="payments_received">प्राप्त भुगतान</string>
-    <string name="top_patients">शीर्ष रोगी (सबसे अधिक शेष)</string>
+    <string name="analytics_title">Analytics (विश्लेषण)</string>
+    <string name="today_summary">Today (आज)</string>
+    <string name="week_summary">This Week (इस सप्ताह)</string>
+    <string name="month_summary">This Month (इस महीने)</string>
+    <string name="medicine_dues">Medicine Dues (दवा बकाया)</string>
+    <string name="payments_received">Payments Received (प्राप्त भुगतान)</string>
+    <string name="top_patients">Top Patients (Highest Balance) (शीर्ष रोगी - सबसे अधिक शेष)</string>
 
     <!-- Input dialog hints and labels -->
-    <string name="hint_patient">रोगी *</string>
-    <string name="hint_new_village">नए गाँव का नाम</string>
-    <string name="hint_name_required">नाम *</string>
-    <string name="hint_phone_optional">फोन (वैकल्पिक)</string>
-    <string name="villages_title">गाँव</string>
-    <string name="hint_village">गाँव</string>
-    <string name="hint_amount">राशि</string>
-    <string name="hint_amount_required">राशि *</string>
-    <string name="hint_notes_optional">नोट्स (वैकल्पिक)</string>
-    <string name="hint_reason_adjustment">समायोजन का कारण</string>
-    <string name="balance_label">शेष:</string>
-    <string name="type_label">प्रकार</string>
-    <string name="reason_label">कारण</string>
+    <string name="hint_patient">Patient * (रोगी *)</string>
+    <string name="hint_new_village">New village name (नए गाँव का नाम)</string>
+    <string name="hint_name_required">Name * (नाम *)</string>
+    <string name="hint_phone_optional">Phone (optional) (फोन (वैकल्पिक))</string>
+    <string name="villages_title">Villages (गाँव)</string>
+    <string name="hint_village">Village (गाँव)</string>
+    <string name="hint_amount">Amount (राशि)</string>
+    <string name="hint_amount_required">Amount * (राशि *)</string>
+    <string name="hint_notes_optional">Notes (optional) (नोट्स (वैकल्पिक))</string>
+    <string name="hint_reason_adjustment">Reason for adjustment (समायोजन का कारण)</string>
+    <string name="balance_label">Balance: (शेष:)</string>
+    <string name="type_label">Type (प्रकार)</string>
+    <string name="reason_label">Reason (कारण)</string>
 </resources>

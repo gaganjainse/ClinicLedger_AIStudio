@@ -78,6 +78,9 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         _error.value = null
     }
 
+    val totalDue: LiveData<Double> = repository.getTotalDueObservable()
+    val totalCollectedToday: LiveData<Double> = repository.getTotalCollectedTodayObservable()
+
     suspend fun getPatientByName(name: String): Patient? {
         return repository.getPatientByName(name)
     }

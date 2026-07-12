@@ -24,5 +24,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "VillageClinicLedger"
+rootProject.name = "Village Clinic Ledger (ग्राम क्लिनिक लेजर)"
 include(":app")

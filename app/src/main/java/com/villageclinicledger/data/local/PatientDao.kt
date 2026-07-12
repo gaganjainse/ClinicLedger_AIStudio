@@ -73,6 +73,9 @@ interface PatientDao {
     @Query("SELECT COUNT(*) FROM patients WHERE current_balance > 0 AND updated_at < :date")
     suspend fun getDefaultersCount(date: java.util.Date): Int
 
+    @Query("SELECT COALESCE(SUM(current_balance), 0.0) FROM patients WHERE current_balance > 0")
+    fun getTotalDueObservable(): LiveData<Double>
+
     @Query("DELETE FROM patients")
     suspend fun deleteAll()
 }

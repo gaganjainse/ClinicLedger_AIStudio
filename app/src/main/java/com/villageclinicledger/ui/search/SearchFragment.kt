@@ -30,6 +30,7 @@ import com.villageclinicledger.ui.search.adapter.SearchResultsAdapter
 import com.villageclinicledger.ui.search.viewmodel.SearchViewModel
 import com.villageclinicledger.voice.VoiceInputSheet
 import com.villageclinicledger.databinding.FragmentSearchBinding
+import com.villageclinicledger.ui.util.LayoutScaler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -85,6 +86,7 @@ class SearchFragment : Fragment() {
         setupVoiceSearch()
         setupFab()
         observeViewModel()
+        applyScaling()
         // ViewModel uses switchMap on _query LiveData; each text change
         // triggers a Room query via the repository.
     }
@@ -177,6 +179,7 @@ class SearchFragment : Fragment() {
                 adapter.submitList(recent)
                 updateEmptyState(recent.isEmpty())
             }
+            binding.listTitleText.text = "हाल ही के रोगी (${recent.size} Patients)"
         }
 
         viewModel.villages.observe(viewLifecycleOwner) { villages ->
@@ -191,6 +194,14 @@ class SearchFragment : Fragment() {
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        viewModel.totalDue.observe(viewLifecycleOwner) { totalDue ->
+            binding.txtTotalDue.text = String.format("₹%,.2f", totalDue ?: 0.0)
+        }
+
+        viewModel.totalCollectedToday.observe(viewLifecycleOwner) { totalCollected ->
+            binding.txtTotalCollected.text = String.format("₹%,.2f", totalCollected ?: 0.0)
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
@@ -227,6 +238,10 @@ class SearchFragment : Fragment() {
         val typeGroup = dialogView.findViewById<RadioGroup>(R.id.quickTypeGroup)
         val notesLayout = dialogView.findViewById<View>(R.id.quickNotesLayout)
         val notesInput = dialogView.findViewById<TextInputEditText>(R.id.quickNotesInput)
+
+        LayoutScaler.scaleTextSize(patientInput, 16f)
+        LayoutScaler.scaleTextSize(amountInput, 16f)
+        LayoutScaler.scaleTextSize(notesInput, 16f)
 
         val patientNames = allPatients.map { it.name }
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, patientNames)
@@ -292,8 +307,93 @@ class SearchFragment : Fragment() {
             .show()
     }
 
+    private fun applyScaling() {
+        val context = requireContext()
+        val displayMetrics = context.resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels
+        val screenHeight = displayMetrics.heightPixels
+
+        val scaleX = screenWidth.toFloat() / 1080f
+        val scaleY = screenHeight.toFloat() / 2400f
+
+        val statusBarHeight = (84 * scaleY).toInt()
+        val appBarHeight = (96 * scaleY).toInt()
+
+        // 1. Toolbar scaling
+        val toolbarLp = binding.toolbar.layoutParams as? ViewGroup.MarginLayoutParams
+        toolbarLp?.let {
+            it.height = appBarHeight
+            it.topMargin = statusBarHeight
+            binding.toolbar.layoutParams = it
+        }
+
+        // 2. SearchTextInputLayout scaling
+        val searchLp = binding.searchInputLayout.layoutParams as? ViewGroup.MarginLayoutParams
+        searchLp?.let {
+            it.width = (984 * scaleX).toInt()
+            it.height = (160 * scaleY).toInt()
+            it.leftMargin = (48 * scaleX).toInt()
+            it.rightMargin = (48 * scaleX).toInt()
+            it.topMargin = (40 * scaleY).toInt()
+            binding.searchInputLayout.layoutParams = it
+        }
+
+        // 2.5. Summary Card scaling
+        val summaryLp = binding.summaryCard.layoutParams as? ViewGroup.MarginLayoutParams
+        summaryLp?.let {
+            it.width = (984 * scaleX).toInt()
+            it.leftMargin = (48 * scaleX).toInt()
+            it.rightMargin = (48 * scaleX).toInt()
+            it.topMargin = (24 * scaleY).toInt()
+            binding.summaryCard.layoutParams = it
+        }
+        LayoutScaler.scaleTextSize(binding.lblTotalDue, 12f)
+        LayoutScaler.scaleTextSize(binding.txtTotalDue, 24f)
+        LayoutScaler.scaleTextSize(binding.lblTotalCollected, 12f)
+        LayoutScaler.scaleTextSize(binding.txtTotalCollected, 20f)
+
+        // 3. Actions ScrollView scaling
+        val actionsLp = binding.actionsScrollView.layoutParams as? ViewGroup.MarginLayoutParams
+        actionsLp?.let {
+            it.width = (984 * scaleX).toInt()
+            it.height = (150 * scaleY).toInt()
+            it.leftMargin = (48 * scaleX).toInt()
+            it.rightMargin = (48 * scaleX).toInt()
+            it.topMargin = (32 * scaleY).toInt()
+            binding.actionsScrollView.layoutParams = it
+        }
+
+        // Scale action button heights dynamically
+        val btnHeight = (120 * scaleY).toInt()
+        binding.btnDashboardAddPatient.layoutParams.height = btnHeight
+        binding.btnDashboardQuickEntry.layoutParams.height = btnHeight
+        binding.btnDashboardAnalytics.layoutParams.height = btnHeight
+        binding.btnDashboardVillages.layoutParams.height = btnHeight
+
+        // 4. List Title Text scaling
+        val titleLp = binding.listTitleText.layoutParams as? ViewGroup.MarginLayoutParams
+        titleLp?.let {
+            it.leftMargin = (48 * scaleX).toInt()
+            it.topMargin = (32 * scaleY).toInt()
+            binding.listTitleText.layoutParams = it
+        }
+        LayoutScaler.scaleTextSize(binding.listTitleText, 16f)
+
+        // 5. RecyclerView layout margins scaling
+        val recyclerLp = binding.searchResultsRecyclerView.layoutParams as? ViewGroup.MarginLayoutParams
+        recyclerLp?.let {
+            it.leftMargin = (48 * scaleX).toInt()
+            it.rightMargin = (48 * scaleX).toInt()
+            it.topMargin = (16 * scaleY).toInt()
+            binding.searchResultsRecyclerView.layoutParams = it
+        }
+        val bottomPadding = (200 * scaleY).toInt()
+        binding.searchResultsRecyclerView.setPadding(0, 0, 0, bottomPadding)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

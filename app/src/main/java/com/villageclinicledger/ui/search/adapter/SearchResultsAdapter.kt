@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.villageclinicledger.R
 import com.google.android.material.imageview.ShapeableImageView
 import com.villageclinicledger.data.models.Patient
+import com.villageclinicledger.ui.util.LayoutScaler
 
 /** RecyclerView adapter for search results. Uses DiffUtil via ListAdapter
  * for efficient list updates. Each item shows the patient name, village
@@ -53,6 +54,12 @@ class SearchResultsAdapter(
         fun bind(patient: Patient) {
             patientNameTextView.text = patient.name
             villageTextView.text = getVillageName(patient.villageId)
+
+            LayoutScaler.scaleTextSize(patientNameTextView, 18f)
+            LayoutScaler.scaleTextSize(villageTextView, 12f)
+            LayoutScaler.scaleTextSize(familyGroupTextView, 12f)
+            LayoutScaler.scaleTextSize(phoneTextView, 13f)
+            LayoutScaler.scaleTextSize(balanceAmountTextView, 18f)
 
             val familyName = getFamilyGroupName(patient.familyGroupId)
             if (!familyName.isNullOrBlank()) {

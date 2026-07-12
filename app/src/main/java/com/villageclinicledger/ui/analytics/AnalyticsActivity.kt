@@ -9,6 +9,8 @@ import com.villageclinicledger.R
 import com.villageclinicledger.data.models.Patient
 import com.villageclinicledger.data.repository.PatientRepository
 import com.villageclinicledger.databinding.ActivityAnalyticsBinding
+import android.view.ViewGroup
+import com.villageclinicledger.ui.util.LayoutScaler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,6 +30,7 @@ class AnalyticsActivity : AppCompatActivity() {
         binding = ActivityAnalyticsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        applyScaling()
         binding.toolbar.setNavigationOnClickListener { finish() }
         loadAnalytics()
     }
@@ -91,6 +94,35 @@ class AnalyticsActivity : AppCompatActivity() {
         repository.getTopPatientsByBalance(10).observe(this) { patients ->
             binding.topPatientsRecyclerView.adapter = TopPatientAdapter(patients)
         }
+    }
+
+    private fun applyScaling() {
+        val screenHeight = resources.displayMetrics.heightPixels
+        val screenWidth = resources.displayMetrics.widthPixels
+        val scaleX = screenWidth.toFloat() / 1080f
+        val scaleY = screenHeight.toFloat() / 2400f
+
+        val statusBarHeight = (84 * scaleY).toInt()
+        val appBarHeight = (96 * scaleY).toInt()
+
+        // 1. Toolbar scaling
+        val toolbarLp = binding.toolbar.layoutParams as? ViewGroup.MarginLayoutParams
+        toolbarLp?.let {
+            it.height = appBarHeight
+            it.topMargin = statusBarHeight
+            binding.toolbar.layoutParams = it
+        }
+
+        // 2. Scale font sizes for stats
+        LayoutScaler.scaleTextSize(binding.todayMedicine, 20f)
+        LayoutScaler.scaleTextSize(binding.todayPayment, 20f)
+        LayoutScaler.scaleTextSize(binding.weekMedicine, 20f)
+        LayoutScaler.scaleTextSize(binding.weekPayment, 20f)
+        LayoutScaler.scaleTextSize(binding.monthMedicine, 20f)
+        LayoutScaler.scaleTextSize(binding.monthPayment, 20f)
+        LayoutScaler.scaleTextSize(binding.defaulters30, 20f)
+        LayoutScaler.scaleTextSize(binding.defaulters90, 20f)
+        LayoutScaler.scaleTextSize(binding.defaulters180, 20f)
     }
 
     /** Returns midnight on the Monday of the current week.

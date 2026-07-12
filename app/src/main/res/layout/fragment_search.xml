@@ -11,217 +11,331 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="60dp"
         android:background="?attr/colorSurface"
         android:elevation="0dp"
         app:title="@string/search_title"
         app:titleTextColor="?attr/colorOnSurface"
         app:titleCentered="true"
+        app:navigationIcon="@android:drawable/ic_menu_revert"
+        app:navigationIconTint="?attr/colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Thin Divider beneath the Fragment Toolbar -->
-    <View
-        android:id="@+id/searchHeaderDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?attr/colorOutlineVariant"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-    <!-- Search Input Layout with Premium Card Styling -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/searchInputLayout"
+    <!-- ==========================================
+         LEDGER REGISTER VIEW
+         ========================================== -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ledgerLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/search_hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchHeaderDivider"
-        app:startIconDrawable="@android:drawable/ic_menu_search"
-        app:startIconTint="?attr/colorPrimary"
-        app:endIconMode="custom"
-        app:endIconDrawable="@android:drawable/ic_btn_speak_now"
-        app:endIconTint="?attr/colorPrimary"
-        app:boxCornerRadiusTopStart="16dp"
-        app:boxCornerRadiusTopEnd="16dp"
-        app:boxCornerRadiusBottomStart="16dp"
-        app:boxCornerRadiusBottomEnd="16dp"
-        app:boxStrokeWidth="1dp"
-        app:boxStrokeColor="?attr/colorPrimary"
-        app:boxBackgroundColor="?attr/colorSurfaceVariant"
-        app:hintTextColor="?attr/colorPrimary"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/searchEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:minHeight="56dp"
-            android:padding="16dp"
-            android:textColor="?attr/colorOnSurface"
-            android:textColorHint="?attr/colorOnSurfaceVariant"
-            android:textSize="16sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Premium Horizontal Dashboard Actions Row -->
-    <HorizontalScrollView
-        android:id="@+id/actionsScrollView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="16dp"
-        android:scrollbars="none"
-        android:overScrollMode="never"
-        app:layout_constraintTop_toBottomOf="@id/searchInputLayout"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <!-- Search Input Layout with Premium Card Styling -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="@string/search_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@android:drawable/ic_menu_search"
+            app:startIconTint="?attr/colorPrimary"
+            app:endIconMode="custom"
+            app:endIconDrawable="@android:drawable/ic_btn_speak_now"
+            app:endIconTint="?attr/colorPrimary"
+            app:boxCornerRadiusTopStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxStrokeWidth="1.5dp"
+            app:boxStrokeColor="?attr/colorPrimary"
+            app:boxBackgroundColor="?attr/colorSurfaceVariant"
+            app:hintTextColor="?attr/colorPrimary"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:minHeight="56dp"
+                android:padding="16dp"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Linear Progress Indicator for loading state -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/searchInputLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Quick Summary Card (Total Outstanding / Total Collected Today) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/summaryCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="1.2dp"
+            app:strokeColor="?attr/colorOutlineVariant"
+            app:cardBackgroundColor="?attr/colorPrimaryContainer"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:baselineAligned="false"
+                android:gravity="center_vertical">
+
+                <!-- Left Half: Total Outstanding Due (Hindi label included) -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/lblTotalDue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="कुल बकाया (Total Due)"
+                        android:textSize="12sp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:alpha="0.8" />
+
+                    <TextView
+                        android:id="@+id/txtTotalDue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹0.00"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+                <!-- Center Divider -->
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/colorOutlineVariant" />
+
+                <!-- Right Half: Total Collected Today (Hindi label included) -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/lblTotalCollected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="आज की वसूली (Collected Today)"
+                        android:textSize="12sp"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:alpha="0.8" />
+
+                    <TextView
+                        android:id="@+id/txtTotalCollected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹0.00"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Premium Horizontal Dashboard Actions Row with NO overlapping button design -->
+        <HorizontalScrollView
+            android:id="@+id/actionsScrollView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginHorizontal="16dp"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@id/summaryCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp"
+                android:gravity="center_vertical">
+
+                <!-- Action 1: Add Patient -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDashboardAddPatient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="नया रोगी (Add Patient)"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:icon="@android:drawable/ic_input_add"
+                    app:iconTint="?attr/colorPrimary"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.Material3.Button.TonalButton" />
+
+                <!-- Action 2: Quick Entry -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDashboardQuickEntry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="त्वरित एंट्री (Quick Entry)"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:icon="@android:drawable/ic_menu_edit"
+                    app:iconTint="?attr/colorPrimary"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.Material3.Button.TonalButton" />
+
+                <!-- Action 3: Analytics -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDashboardAnalytics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="आँकड़े (Stats)"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:icon="@android:drawable/ic_menu_compass"
+                    app:iconTint="?attr/colorPrimary"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.Material3.Button.TonalButton" />
+
+                <!-- Action 4: Villages -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDashboardVillages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="गाँव (Villages)"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:icon="@android:drawable/ic_menu_myplaces"
+                    app:iconTint="?attr/colorPrimary"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.Material3.Button.TonalButton" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Search Results / Recent List Title -->
+        <TextView
+            android:id="@+id/listTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="4dp"
-            android:gravity="center_vertical">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:text="हाल ही के रोगी (Recent Patients)"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            android:letterSpacing="0.02"
+            app:layout_constraintTop_toBottomOf="@id/actionsScrollView"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- Action 1: Add Patient -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDashboardAddPatient"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:text="रोगी जोड़े (Add Patient)"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:icon="@android:drawable/ic_input_add"
-                app:iconTint="?attr/colorPrimary"
-                app:cornerRadius="12dp"
-                style="@style/Widget.Material3.Button.TonalButton" />
+        <!-- Search Results RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchResultsRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingBottom="96dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/listTitleText"
+            tools:listitem="@layout/item_patient_search" />
 
-            <!-- Action 2: Quick Entry -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDashboardQuickEntry"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:text="त्वरित प्रविष्टि (Quick Entry)"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:icon="@android:drawable/ic_menu_edit"
-                app:iconTint="?attr/colorPrimary"
-                app:cornerRadius="12dp"
-                style="@style/Widget.Material3.Button.TonalButton" />
-
-            <!-- Action 3: Analytics -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDashboardAnalytics"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:text="विश्लेषण (Stats)"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:icon="@android:drawable/ic_menu_compass"
-                app:iconTint="?attr/colorPrimary"
-                app:cornerRadius="12dp"
-                style="@style/Widget.Material3.Button.TonalButton" />
-
-            <!-- Action 4: Villages -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDashboardVillages"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:text="गाँव (Villages)"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:icon="@android:drawable/ic_menu_myplaces"
-                app:iconTint="?attr/colorPrimary"
-                app:cornerRadius="12dp"
-                style="@style/Widget.Material3.Button.TonalButton" />
-
-        </LinearLayout>
-    </HorizontalScrollView>
-
-    <!-- Search Results RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchResultsRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:clipToPadding="false"
-        android:paddingBottom="84dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/actionsScrollView"
-        tools:listitem="@layout/item_patient_search" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:indicatorSize="36dp"
-        app:indicatorColor="?attr/colorPrimary" />
-
-    <!-- Elegant, modern empty state card -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/emptyStateView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="?attr/colorSurfaceVariant"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="0dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="?attr/colorOutlineVariant">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- Elegant empty state card inside layout -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/emptyStateView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="32dp">
+            android:layout_margin="24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="?attr/colorOutlineVariant">
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/ic_search"
-                app:tint="?attr/colorPrimary"
-                android:contentDescription="Search Icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/empty_state_title"
-                android:textColor="?attr/colorOnSurface"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="32dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/empty_state_message"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="14sp"
-                android:gravity="center" />
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_search"
+                    app:tint="?attr/colorPrimary"
+                    android:contentDescription="Search Icon" />
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/empty_state_title"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-    </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/empty_state_message"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="14sp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

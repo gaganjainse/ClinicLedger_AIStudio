@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.villageclinicledger.R
 import com.villageclinicledger.data.models.Transaction
+import com.villageclinicledger.ui.util.LayoutScaler
 
 /** RecyclerView adapter that displays a patient's transaction history.
  * Each row shows the transaction type (color-coded), date, formatted amount
@@ -37,6 +38,11 @@ class TransactionAdapter : ListAdapter<Transaction, TransactionAdapter.Transacti
          * localized label, applies the type-specific color, and renders
          * the amount in red (debit/medicine) or green (credit/payment). */
         fun bind(transaction: Transaction) {
+            LayoutScaler.scaleTextSize(typeTextView, 15f)
+            LayoutScaler.scaleTextSize(dateTextView, 13f)
+            LayoutScaler.scaleTextSize(amountTextView, 16f)
+            LayoutScaler.scaleTextSize(notesTextView, 12f)
+
             typeTextView.text = when (transaction.type) {
                 "medicine" -> itemView.context.getString(R.string.medicine_type)
                 "payment" -> itemView.context.getString(R.string.payment_type)

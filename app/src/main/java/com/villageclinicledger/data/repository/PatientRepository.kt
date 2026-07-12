@@ -164,4 +164,18 @@ class PatientRepository(private val context: Context) {
     suspend fun getTotalPaymentsSince(since: Date): Double {
         return transactionDao.getTotalPaymentsSince(since)
     }
+
+    fun getTotalDueObservable(): LiveData<Double> {
+        return patientDao.getTotalDueObservable()
+    }
+
+    fun getTotalCollectedTodayObservable(): LiveData<Double> {
+        val midnight = java.util.Calendar.getInstance().apply {
+            set(java.util.Calendar.HOUR_OF_DAY, 0)
+            set(java.util.Calendar.MINUTE, 0)
+            set(java.util.Calendar.SECOND, 0)
+            set(java.util.Calendar.MILLISECOND, 0)
+        }.time
+        return transactionDao.getTotalCollectedSinceObservable(midnight)
+    }
 }

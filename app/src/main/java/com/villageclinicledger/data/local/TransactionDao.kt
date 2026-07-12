@@ -50,6 +50,9 @@ interface TransactionDao {
     @Query("SELECT COALESCE(SUM(amount), 0) FROM transactions WHERE type = 'payment' AND created_at >= :since")
     suspend fun getTotalPaymentsSince(since: Date): Double
 
+    @Query("SELECT COALESCE(SUM(amount), 0.0) FROM transactions WHERE type = 'payment' AND created_at >= :since")
+    fun getTotalCollectedSinceObservable(since: Date): LiveData<Double>
+
     @Query("DELETE FROM transactions")
     suspend fun deleteAll()
 }

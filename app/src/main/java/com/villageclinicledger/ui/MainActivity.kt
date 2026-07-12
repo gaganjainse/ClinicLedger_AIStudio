@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
@@ -22,6 +23,7 @@ import com.villageclinicledger.ui.villages.VillageManagementActivity
 import com.villageclinicledger.ui.backup.BackupActivity
 import com.villageclinicledger.voice.VoiceInputSheet
 import com.villageclinicledger.databinding.ActivityMainBinding
+import com.villageclinicledger.ui.util.LayoutScaler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -50,9 +52,29 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val screenHeight = resources.displayMetrics.heightPixels
+        val screenWidth = resources.displayMetrics.widthPixels
+        val scaleX = screenWidth.toFloat() / 1080f
+        val scaleY = screenHeight.toFloat() / 2400f
+
+        // Bottom safe area is 2300-2400 px (100 px from bottom).
+        // Let's set bottom margin of voiceBottomBar to include this safe area.
+        val bottomMargin = (48 * scaleY).toInt() + (100 * scaleY).toInt()
+        val voiceLp = binding.voiceBottomBar.layoutParams as? ViewGroup.MarginLayoutParams
+        voiceLp?.let {
+            it.height = (180 * scaleY).toInt()
+            it.leftMargin = (48 * scaleX).toInt()
+            it.rightMargin = (48 * scaleX).toInt()
+            it.bottomMargin = bottomMargin
+            binding.voiceBottomBar.layoutParams = it
+        }
+
         setSupportActionBar(binding.toolbar)
 
         loadVillages()
+        lifecycleScope.launch(Dispatchers.IO) {
+            com.villageclinicledger.data.util.DataSeeder.seedDatabaseIfNeeded(this@MainActivity)
+        }
         BackupService.scheduleBackup(this)
 
         binding.voiceBottomBar.setOnClickListener {
@@ -117,6 +139,10 @@ class MainActivity : AppCompatActivity() {
         val nameInput = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.patientNameInput)
         val phoneInput = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.patientPhoneInput)
         val villageInput = dialogView.findViewById<AutoCompleteTextView>(R.id.villageAutoComplete)
+
+        LayoutScaler.scaleTextSize(nameInput, 16f)
+        LayoutScaler.scaleTextSize(phoneInput, 16f)
+        LayoutScaler.scaleTextSize(villageInput, 16f)
 
         val villageNames = villages.map { it.name }
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, villageNames)
