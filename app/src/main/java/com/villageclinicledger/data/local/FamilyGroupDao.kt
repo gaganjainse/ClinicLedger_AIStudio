@@ -23,6 +23,9 @@ interface FamilyGroupDao {
     @Query("SELECT * FROM family_groups ORDER BY name ASC")
     fun getAllFamilyGroups(): LiveData<List<FamilyGroup>>
 
+    @Query("SELECT * FROM family_groups ORDER BY name ASC")
+    suspend fun getAllFamilyGroupsSync(): List<FamilyGroup>
+
     @Query("SELECT * FROM family_groups WHERE id = :familyGroupId")
     suspend fun getFamilyGroupById(familyGroupId: Long): FamilyGroup?
 

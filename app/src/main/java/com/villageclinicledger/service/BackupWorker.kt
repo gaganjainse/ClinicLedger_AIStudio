@@ -21,12 +21,14 @@ class BackupWorker(context: Context, params: WorkerParameters) : CoroutineWorker
             val patients = database.patientDao().getAllPatientsSync()
             val aliases = database.aliasDao().getAllAliasesSync()
             val transactions = database.transactionDao().getAllTransactionsSync()
+            val familyGroups = database.familyGroupDao().getAllFamilyGroupsSync()
 
             val backupData = BackupData(
                 villages = villages,
                 patients = patients,
                 aliases = aliases,
-                transactions = transactions
+                transactions = transactions,
+                familyGroups = familyGroups
             )
 
             val gson = GsonBuilder().setPrettyPrinting().create()

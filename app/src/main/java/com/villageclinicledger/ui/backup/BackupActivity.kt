@@ -76,12 +76,14 @@ class BackupActivity : AppCompatActivity() {
                 val patients = database.patientDao().getAllPatientsSync()
                 val aliases = database.aliasDao().getAllAliasesSync()
                 val transactions = database.transactionDao().getAllTransactionsSync()
+                val familyGroups = database.familyGroupDao().getAllFamilyGroupsSync()
 
                 val backupData = BackupData(
                     villages = villages,
                     patients = patients,
                     aliases = aliases,
-                    transactions = transactions
+                    transactions = transactions,
+                    familyGroups = familyGroups
                 )
 
                 val json = gson.toJson(backupData)
@@ -129,10 +131,16 @@ class BackupActivity : AppCompatActivity() {
                     database.transactionDao().deleteAll()
                     database.aliasDao().deleteAll()
                     database.patientDao().deleteAll()
+                    database.familyGroupDao().deleteAll()
                     database.villageDao().deleteAll()
 
                     for (village in backupData.villages) {
                         database.villageDao().insertVillage(village)
+                    }
+                    backupData.familyGroups?.let { fgs ->
+                        for (fg in fgs) {
+                            database.familyGroupDao().insertFamilyGroup(fg)
+                        }
                     }
                     for (patient in backupData.patients) {
                         database.patientDao().insertPatient(patient)

@@ -60,6 +60,28 @@ abstract class VillageClinicLedgerDatabase : RoomDatabase() {
             Pair("Piplya", "पीपल्या")
         )
 
+        val MIGRATION_1_2 = object : androidx.room.migration.Migration(1, 2) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL("""
+                    CREATE TABLE IF NOT EXISTS `family_groups` (
+                        `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                        `name` TEXT NOT NULL, 
+                        `head_patient_id` INTEGER, 
+                        `village_id` INTEGER NOT NULL, 
+                        `created_at` INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP
+                    )
+                """.trimIndent())
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_family_groups_village_id` ON `family_groups` (`village_id`)")
+                db.execSQL("ALTER TABLE `patients` ADD COLUMN `family_group_id` INTEGER DEFAULT NULL")
+            }
+        }
+
+        val MIGRATION_2_3 = object : androidx.room.migration.Migration(2, 3) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `villages` ADD COLUMN `name_hindi` TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
         fun getDatabase(context: Context): VillageClinicLedgerDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -80,7 +102,7 @@ abstract class VillageClinicLedgerDatabase : RoomDatabase() {
                             db.execSQL("PRAGMA foreign_keys = ON")
                         }
                     })
-                    .fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .build()
                 INSTANCE = instance
                 instance

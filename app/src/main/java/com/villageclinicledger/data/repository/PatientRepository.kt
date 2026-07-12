@@ -54,9 +54,9 @@ class PatientRepository(private val context: Context) {
         return patientDao.getDefaultersCount(date)
     }
 
-    /** Wraps the search term with SQL LIKE wildcards before delegating to the DAO */
+    /** Delegates search term directly to the DAO, which adds the SQLite wildcards */
     fun searchPatients(searchQuery: String): LiveData<List<Patient>> {
-        return patientDao.searchPatients("%$searchQuery%")
+        return patientDao.searchPatients(searchQuery)
     }
 
     suspend fun getPatientByName(name: String): Patient? {

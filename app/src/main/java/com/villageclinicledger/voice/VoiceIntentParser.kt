@@ -137,10 +137,11 @@ object VoiceIntentParser {
         val words = text.split("\\s+".toRegex())
         if (villages != null) {
             for (word in words) {
+                val cleanWord = word.lowercase(Locale.getDefault())
                 for (v in villages) {
                     val engKey = v.name.lowercase()
                     val hindiKey = v.nameHindi.lowercase()
-                    if (word.contains(engKey) || (hindiKey.isNotEmpty() && word.contains(hindiKey))) {
+                    if (cleanWord.contains(engKey) || (hindiKey.isNotEmpty() && cleanWord.contains(hindiKey))) {
                         return v.name
                     }
                 }
@@ -152,9 +153,11 @@ object VoiceIntentParser {
             "mandaliya" to "Mandaliya", "nala" to "Nala", "piplya" to "Piplya"
         )
         return words.firstOrNull { word ->
-            villageMap.any { (key, _) -> word.contains(key) }
+            val cleanWord = word.lowercase(Locale.getDefault())
+            villageMap.any { (key, _) -> cleanWord.contains(key) }
         }?.let { word ->
-            villageMap.entries.firstOrNull { (key, _) -> word.contains(key) }?.value
+            val cleanWord = word.lowercase(Locale.getDefault())
+            villageMap.entries.firstOrNull { (key, _) -> cleanWord.contains(key) }?.value
         }
     }
 
@@ -214,7 +217,17 @@ object VoiceIntentParser {
             "to", "for", "in", "on", "at", "by", "is", "are",
             "dawa", "dawai", "di", "diya", "diye", "rupaye", "rupay",
             "paise", "sau", "hazaar", "lakh", "naya", "nayi",
-            "galat", "hata", "nahi", "haan", "sahi", "jama", "kar"
+            "galat", "hata", "nahi", "haan", "sahi", "jama", "kar",
+            "dava", "davai", "tablet", "syrup", "injection", "medicine",
+            "payment", "paisa", "paise", "rupee", "rupees", "baki", "hisaab",
+            "khata", "balance", "due", "how", "much", "hatao", "hataen",
+            "hataon", "karne", "karo", "do", "diya", "diye", "di",
+            "batao", "bataao", "dikhao", "dikhaao",
+            "दवा", "दवाई", "दिया", "दी", "दिये", "रुपए", "रुपये", "पैसे",
+            "सौ", "हज़ार", "लाख", "नया", "नयी", "गलत", "हटा", "नहीं",
+            "हाँ", "हां", "जमा", "कर", "कितना", "बकाया", "हिसाब", "खाता",
+            "बैलेंस", "को", "ने", "का", "की", "के", "से", "में", "और", "पर",
+            "हटाओ", "हटाएं", "करो", "दो", "बताओ", "दिखाओ"
         )
         return word.length < 2 || word.all { it.isDigit() } || stopWords.contains(word)
     }

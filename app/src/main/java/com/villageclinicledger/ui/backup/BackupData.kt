@@ -1,6 +1,7 @@
 package com.villageclinicledger.ui.backup
 
 import com.villageclinicledger.data.models.Alias
+import com.villageclinicledger.data.models.FamilyGroup
 import com.villageclinicledger.data.models.Patient
 import com.villageclinicledger.data.models.Transaction
 import com.villageclinicledger.data.models.Village
@@ -14,7 +15,8 @@ data class BackupData(
     val villages: List<Village>,
     val patients: List<Patient>,
     val aliases: List<Alias>,
-    val transactions: List<Transaction>
+    val transactions: List<Transaction>,
+    val familyGroups: List<FamilyGroup>? = emptyList()
 ) {
     companion object {
         const val CURRENT_VERSION = 1
