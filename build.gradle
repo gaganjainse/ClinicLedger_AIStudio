@@ -1,0 +1,21 @@
+/*
+    Root-level (project-wide) build configuration for Village Clinic Ledger.
+
+    Plugin versions are declared here with `apply false` so they are available
+    to all sub-projects but only applied in the modules that need them.
+
+    - AGP 8.1.4         : Android Gradle Plugin – stable version compatible
+                          with the current Gradle wrapper and tooling.
+    - Kotlin 1.9.23     : Kotlin compiler. Pinned to this version for
+                          compatibility with Room's kapt processor.
+    - kotlin.kapt       : Annotation processing – required by Room.
+    - kotlin.parcelize  : Auto-generates Parcelable implementations for
+                          data classes passed via Bundles/Intents.
+*/
+plugins {
+    id 'com.android.application' version '8.7.3' apply false
+    id 'org.jetbrains.kotlin.android' version '2.0.21' apply false
+    id 'org.jetbrains.kotlin.kapt' version '2.0.21' apply false
+    id 'org.jetbrains.kotlin.plugin.parcelize' version '2.0.21' apply false
+}
+

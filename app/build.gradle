@@ -1,0 +1,124 @@
+/*
+    App-level build configuration for Village Clinic Ledger.
+
+    Plugins:
+    - com.android.application    – Standard Android app module plugin.
+    - kotlin.android             – Kotlin compiler & stdlib integration.
+    - kotlin.kapt                – Annotation processing (used by Room).
+    - kotlin.plugin.parcelize    – Auto-generates Parcelable implementations
+                                   for data classes (avoids boilerplate).
+*/
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'org.jetbrains.kotlin.plugin.parcelize'
+}
+
+/*
+    Android block – SDK versions and build configuration.
+
+    - compileSdk / targetSdk 34: Targets Android 14 (API 34) to use the latest
+      APIs while minSdk 24 ensures compatibility with devices back to Android 7.
+    - minSdk 24: Chosen because Room, WorkManager, and modern coroutines
+      require API 24+ for reliable behaviour.
+    - viewBinding: Enabled for type-safe view access without the overhead of
+      Data Binding (the project prefers explicit binding classes).
+    - proguard: Currently disabled (minifyEnabled false); can be enabled when
+      the app is prepared for release distribution.
+    - JVM target 1.8: Required for broad compatibility with Android runtimes.
+*/
+android {
+    namespace 'com.villageclinicledger'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.villageclinicledger"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+/*
+    KAPT (Kotlin Annotation Processing Tool) configuration.
+
+    The --add-opens flags are required for Room's annotation processor to work
+    correctly with newer JDK versions (Java 16+) that enforce stricter
+    encapsulation in the JDK compiler APIs.
+*/
+kapt {
+    javacOptions {
+        option("-J--add-opens", "jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED")
+        option("-J--add-opens", "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED")
+        option("-J--add-opens", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED")
+        option("-J--add-opens", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED")
+    }
+}
+
+/*
+    Dependencies – grouped by purpose for clarity.
+
+    Core AndroidX   : core-ktx, appcompat, fragment-ktx
+    UI              : Material 3, ConstraintLayout, RecyclerView, CardView
+    Architecture    : ViewModel + LiveData (lifecycle), Navigation component
+    Database        : Room (runtime + KTX + compiler via kapt)
+    Background      : WorkManager (for future sync/backup scheduling)
+    Serialisation   : Gson (for JSON export/import in BackupActivity)
+    Async           : kotlinx-coroutines-android
+    Testing         : JUnit + AndroidX Test + Espresso
+*/
+dependencies {
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0'
+    implementation 'androidx.fragment:fragment-ktx:1.6.2'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.6'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'androidx.room:room-runtime:2.6.1'
+    implementation 'androidx.room:room-ktx:2.6.1'
+    kapt 'androidx.room:room-compiler:2.6.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

@@ -1,11 +1,27 @@
-<div align="center">
+# VillageClinicLedger
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+An Android app for managing patient records and clinic operations in village healthcare settings. Built with Kotlin and Jetpack Compose.
 
-  <h1>Built with AI Studio</h2>
+## Features
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+- Patient registration and record management
+- Village-wise patient grouping
+- Backup and restore functionality
+- Offline-first local storage
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Tech Stack
 
-</div>
+- **Language:** Kotlin
+- **UI:** Jetpack Compose
+- **Architecture:** MVVM
+- **Build:** Gradle (Kotlin DSL)
+
+## Building
+
+```bash
+./gradlew assembleDebug
+```
+
+## License
+
+Apache 2.0 - see [LICENSE](LICENSE).

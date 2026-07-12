@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <FrameLayout
+        android:id="@+id/micContainer"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="8dp">
+
+        <View
+            android:id="@+id/micPulse"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:background="@drawable/circle_pulse" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/voiceMicButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:contentDescription="Mic"
+            android:src="@android:drawable/ic_btn_speak_now"
+            app:backgroundTint="@color/md_theme_light_primary"
+            app:tint="@color/md_theme_light_onPrimary"
+            app:fabSize="normal" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/voiceStatusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/voice_listening_hint"
+        android:textSize="14sp"
+        android:textColor="@color/md_theme_light_onSurfaceVariant"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/recognizedSpeech"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textColor="@color/md_theme_light_onSurface"
+        android:gravity="center"
+        android:visibility="gone"
+        android:minLines="2" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/confirmationCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp"
+        app:contentPadding="16dp"
+        app:cardBackgroundColor="@color/md_theme_light_surfaceVariant">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/confirmationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/md_theme_light_onSurface" />
+
+            <TextView
+                android:id="@+id/confirmationDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp"
+                android:textColor="@color/md_theme_light_onSurfaceVariant" />
+
+            <TextView
+                android:id="@+id/confirmationBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/md_theme_light_primary" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:id="@+id/confirmButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="2">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmYes"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:text="हाँ (Sahi Hai)"
+            android:textSize="14sp"
+            app:icon="@android:drawable/ic_menu_send"
+            style="@style/Widget.Material3.Button.TonalButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmNo"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:text="नहीं (Badlo)"
+            android:textSize="14sp"
+            app:icon="@android:drawable/ic_menu_close_clear_cancel"
+            style="@style/Widget.Material3.Button.TonalButton" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/holdHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/voice_mic_hold_hint"
+        android:textSize="12sp"
+        android:textColor="@color/md_theme_light_outline"
+        android:visibility="gone" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/voiceProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:indicatorSize="24dp" />
+
+</LinearLayout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Android Manifest for Village Clinic Ledger.
+
+    This file declares all app components, permissions, and configuration
+    required for the application. The app is designed for rural clinic staff
+    to manage patient records, track dues/payments, and back up data.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        Permissions:
+        RECORD_AUDIO       – Required by the future VoiceService for hands-free
+                            patient lookup via speech recognition.
+        FOREGROUND_SERVICE – Allows BackupService and VoiceService to run as
+                            foreground services (needed for long-running tasks
+                            on API 26+).
+        POST_NOTIFICATIONS – Required on Android 13+ to show foreground-service
+                            or other notifications.
+    -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!--
+        Application configuration:
+        - Uses a custom Application class (VillageClinicLedgerApp) for any
+          app-level initialisation (e.g. dependency injection, analytics).
+        - allowBackup / fullBackupContent enabled so patient data is preserved
+          during device-to-device migration.
+        - supportsRtl="true" enables right-to-left layout mirroring for
+          Hindi and other RTL languages.
+        - usesCleartextTraffic="true" is required if the app ever communicates
+          with a local HTTP server (e.g. a clinic LAN).
+        - tools:targetApi="34" suppresses lint warnings for newer API features
+          used while keeping compileSdk=34.
+    -->
+    <application
+        android:name=".VillageClinicLedgerApp"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.VillageClinicLedger"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="34">
+
+        <!--
+            MainActivity – Launcher activity. Provides the primary UI for
+            searching patients, quick-entry transactions, and navigation to
+            other screens via the bottom navigation bar.
+        -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            VillageManagementActivity – Allows the user to add, edit, and
+            delete village names used when registering patients.
+        -->
+        <activity
+            android:name=".ui.villages.VillageManagementActivity"
+            android:exported="false" />
+
+        <!--
+            BackupActivity – UI for exporting/importing app data as JSON
+            files to/from device storage.
+        -->
+        <activity
+            android:name=".ui.backup.BackupActivity"
+            android:exported="false" />
+
+        <!--
+            AnalyticsActivity – Displays summary statistics: today/week/month
+            totals for medicine dues, payments received, and top patients.
+        -->
+        <activity
+            android:name=".ui.analytics.AnalyticsActivity"
+            android:exported="false" />
+
+        <!--
+            VillageClinicLedgerProvider – Content provider used by the
+            Room database layer (via the provider authority
+            "com.villageclinicledger.provider") for data sharing.
+        -->
+        <provider
+            android:name=".data.local.VillageClinicLedgerProvider"
+            android:authorities="com.villageclinicledger.provider"
+            android:exported="false" />
+
+        <!--
+            VoiceService – Background service for handling voice-based
+            patient lookup (future feature).
+        -->
+        <service
+            android:name=".service.VoiceService"
+            android:exported="false" />
+
+    </application>
+
+</manifest>
