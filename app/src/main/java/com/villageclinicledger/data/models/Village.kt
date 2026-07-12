@@ -22,6 +22,9 @@ data class Village(
     @ColumnInfo(name = "name")
     val name: String,
 
+    @ColumnInfo(name = "name_hindi", defaultValue = "")
+    val nameHindi: String = "",
+
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
     val createdAt: Date = Date()
 ) {

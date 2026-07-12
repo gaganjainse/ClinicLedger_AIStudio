@@ -43,6 +43,8 @@ class VoiceInputSheet : BottomSheetDialogFragment() {
     private var transcription = ""
     private var correctEntryId: Long? = null
     private var villagesMap: Map<Long, String> = emptyMap()
+    private var ambiguousPatients: List<Patient>? = null
+    private var allVillagesList: List<com.villageclinicledger.data.models.Village> = emptyList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_voice_input, container, false)
@@ -52,7 +54,8 @@ class VoiceInputSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         repository = PatientRepository(requireContext())
         ttsManager = VoiceTtsManager(requireContext())
-        repository.getAllVillages().observe(this) { villages ->
+        repository.getAllVillages().observe(viewLifecycleOwner) { villages ->
+            allVillagesList = villages
             villagesMap = villages.associate { it.id to it.name }
         }
         setupMicButton()
@@ -198,7 +201,9 @@ class VoiceInputSheet : BottomSheetDialogFragment() {
                 if (!matches.isNullOrEmpty()) {
                     transcription = matches[0]
                     updateRecognizedText(transcription)
-                    if (state == ConversationState.CONFIRMING) {
+                    if (ambiguousPatients != null) {
+                        handleDisambiguation(transcription)
+                    } else if (state == ConversationState.CONFIRMING) {
                         handleConfirmationVoice(transcription)
                     } else {
                         processVoiceInput(transcription)
@@ -222,7 +227,7 @@ class VoiceInputSheet : BottomSheetDialogFragment() {
 
     private fun processVoiceInput(text: String) {
         lifecycleScope.launch(Dispatchers.IO) {
-            val parsed = VoiceIntentParser.parse(text)
+            val parsed = VoiceIntentParser.parse(text, allVillagesList)
             currentIntent = parsed
             when (parsed.intent) {
                 IntentType.CONFIRM_YES -> handleConfirmationVoice(text)
@@ -397,9 +402,57 @@ class VoiceInputSheet : BottomSheetDialogFragment() {
     }
 
     private suspend fun handleCorrection() {
+        val lastTx = repository.getLastTransaction()
+        if (lastTx == null) {
+            withContext(Dispatchers.Main) {
+                setState(ConversationState.ERROR)
+                ttsManager?.speak("कोई पिछली एंट्री नहीं मिली") {
+                    delayThen { setState(ConversationState.LISTENING); startListening() }
+                }
+            }
+            return
+        }
+        val patient = repository.getPatientByIdSync(lastTx.patientId)
+        if (patient == null) {
+            withContext(Dispatchers.Main) {
+                setState(ConversationState.ERROR)
+                ttsManager?.speak("पिछली एंट्री का रोगी नहीं मिला") {
+                    delayThen { setState(ConversationState.LISTENING); startListening() }
+                }
+            }
+            return
+        }
+        
         withContext(Dispatchers.Main) {
-            setState(ConversationState.PROCESSING)
-            ttsManager?.speak("पिछली एंट्री हटा रहा हूँ...")
+            matchedPatient = patient
+            val revAmount = if (lastTx.type == "payment") lastTx.amount else -lastTx.amount
+            pendingTransaction = Transaction(
+                patientId = patient.id,
+                type = "adjustment",
+                amount = revAmount,
+                notes = "Reversal of ${lastTx.type} (ID ${lastTx.id})",
+                createdAt = Date()
+            )
+            val newBalance = patient.currentBalance + revAmount
+            
+            val typeText = when (lastTx.type) {
+                "medicine" -> "दवा"
+                "payment" -> "भुगतान"
+                "adjustment" -> "समायोजन"
+                else -> lastTx.type
+            }
+            val titleStr = "${patient.name} — सुधार (Correction)"
+            val detailStr = "रद्द (Cancel): $typeText ₹${lastTx.amount.toLong()}"
+            val balanceStr = "बकाया पुनः स्थापित: ₹${maxOf(0.0, newBalance).toLong()}"
+            
+            val spokenText = "पिछली एंट्री ${patient.name} की $typeText ${lastTx.amount.toLong()} रुपये रद्द कर रहा हूँ। नया बकाया ${newBalance.toLong()} रुपये। क्या यह सही है?"
+            
+            showConfirmationCard(
+                title = titleStr,
+                detail = detailStr,
+                balance = balanceStr,
+                spoken = spokenText
+            )
         }
     }
 
@@ -469,11 +522,11 @@ class VoiceInputSheet : BottomSheetDialogFragment() {
                         withContext(Dispatchers.Main) { onSaveComplete() }
                     }
                     IntentType.CORRECTION -> {
-                        withContext(Dispatchers.Main) {
-                            setState(ConversationState.DONE)
-                            ttsManager?.speak(getString(R.string.voice_saved)) {
-                                delayThen { dismiss() }
-                            }
+                        if (pendingTransaction != null) {
+                            repository.insertTransaction(pendingTransaction!!)
+                            withContext(Dispatchers.Main) { onSaveComplete() }
+                        } else {
+                            withContext(Dispatchers.Main) { onSaveComplete() }
                         }
                     }
                     IntentType.SEARCH_BALANCE -> {
@@ -559,12 +612,84 @@ class VoiceInputSheet : BottomSheetDialogFragment() {
     }
 
     private suspend fun findPatient(name: String): Patient? {
-        var patient = repository.getPatientByName(name)
-        if (patient == null) {
-            val matches = repository.findPatientByVoice(name)
-            patient = matches.firstOrNull()
+        val matches = repository.findPatientByVoice(name)
+        if (matches.size > 1) {
+            ambiguousPatients = matches
+            withContext(Dispatchers.Main) {
+                showDisambiguationCard(matches)
+            }
+            return null
         }
-        return patient
+        return matches.firstOrNull()
+    }
+
+    private fun showDisambiguationCard(patients: List<Patient>) {
+        setState(ConversationState.CONFIRMING)
+        val textBuilder = StringBuilder()
+        val spokenBuilder = StringBuilder()
+        spokenBuilder.append("दो रोगी मिले। ")
+        for ((index, p) in patients.withIndex()) {
+            val villageName = getVillageName(p.villageId)
+            textBuilder.append("${index + 1}. ${p.name} (${villageName})\n")
+            spokenBuilder.append("${p.name} ${villageName} से, ")
+        }
+        spokenBuilder.append("कौन सा?")
+        
+        updateConfirmationCard(
+            title = "कौन सा रोगी?",
+            detail = textBuilder.toString(),
+            balanceAmount = ""
+        )
+        ttsManager?.speak(spokenBuilder.toString()) {
+            delayThen { setState(ConversationState.LISTENING); startListening() }
+        }
+    }
+
+    private fun handleDisambiguation(text: String) {
+        val patients = ambiguousPatients ?: return
+        val clean = text.lowercase()
+        var selected: Patient? = null
+        for (p in patients) {
+            val lastName = p.name.split(" ").lastOrNull()?.lowercase() ?: ""
+            val firstName = p.name.split(" ").firstOrNull()?.lowercase() ?: ""
+            val village = getVillageName(p.villageId).lowercase()
+            if (clean.contains(lastName) || clean.contains(village) || clean.contains(firstName)) {
+                selected = p
+                break
+            }
+        }
+        if (clean.contains("pehla") || clean.contains("first") || clean.contains("ek") || clean.contains("1") || clean.contains("एक")) {
+            selected = patients.getOrNull(0)
+        } else if (clean.contains("doosra") || clean.contains("second") || clean.contains("do") || clean.contains("2") || clean.contains("दो")) {
+            selected = patients.getOrNull(1)
+        }
+
+        if (selected != null) {
+            ambiguousPatients = null
+            matchedPatient = selected
+            val originalIntent = currentIntent
+            if (originalIntent != null) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    when (originalIntent.intent) {
+                        IntentType.SEARCH_BALANCE -> handleBalanceQuery(originalIntent, transcription)
+                        IntentType.MEDICINE -> handleMedicineEntry(originalIntent)
+                        IntentType.PAYMENT -> handlePaymentEntry(originalIntent)
+                        IntentType.MEDICINE_AND_PAYMENT -> handleMedicineAndPayment(originalIntent)
+                        else -> {
+                            withContext(Dispatchers.Main) {
+                                showBalanceCard(selected)
+                            }
+                        }
+                    }
+                }
+            } else {
+                showBalanceCard(selected)
+            }
+        } else {
+            ttsManager?.speak("मुझे समझ नहीं आया। पहला या दूसरा?") {
+                startListening()
+            }
+        }
     }
 
     private fun getVillageName(villageId: Long): String {

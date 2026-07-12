@@ -51,6 +51,20 @@ class AnalyticsActivity : AppCompatActivity() {
                 val monthMedicine = repository.getTotalMedicineSince(monthStart)
                 val monthPayments = repository.getTotalPaymentsSince(monthStart)
 
+                val cal = java.util.Calendar.getInstance()
+                cal.add(java.util.Calendar.DAY_OF_YEAR, -30)
+                val date30 = cal.time
+                val cal90 = java.util.Calendar.getInstance()
+                cal90.add(java.util.Calendar.DAY_OF_YEAR, -90)
+                val date90 = cal90.time
+                val cal180 = java.util.Calendar.getInstance()
+                cal180.add(java.util.Calendar.DAY_OF_YEAR, -180)
+                val date180 = cal180.time
+
+                val count30 = repository.getDefaultersCount(date30)
+                val count90 = repository.getDefaultersCount(date90)
+                val count180 = repository.getDefaultersCount(date180)
+
                 withContext(Dispatchers.Main) {
                     binding.todayMedicine.text = "₹${"%.2f".format(todayMedicine)}"
                     binding.todayPayment.text = "₹${"%.2f".format(todayPayments)}"
@@ -58,6 +72,9 @@ class AnalyticsActivity : AppCompatActivity() {
                     binding.weekPayment.text = "₹${"%.2f".format(weekPayments)}"
                     binding.monthMedicine.text = "₹${"%.2f".format(monthMedicine)}"
                     binding.monthPayment.text = "₹${"%.2f".format(monthPayments)}"
+                    binding.defaulters30.text = count30.toString()
+                    binding.defaulters90.text = count90.toString()
+                    binding.defaulters180.text = count180.toString()
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

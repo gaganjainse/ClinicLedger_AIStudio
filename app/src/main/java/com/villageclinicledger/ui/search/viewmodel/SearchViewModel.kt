@@ -47,6 +47,9 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     /** All villages, used by the fragment to resolve villageId → name. */
     val villages: LiveData<List<Village>> = repository.getAllVillages()
 
+    /** All family groups, used by the fragment to resolve familyGroupId → name. */
+    val familyGroups: LiveData<List<com.villageclinicledger.data.models.FamilyGroup>> = repository.getAllFamilyGroups()
+
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 

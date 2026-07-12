@@ -16,13 +16,14 @@ import com.villageclinicledger.data.models.Patient
  * (resolved via the getVillageName lambda), phone, and current balance. */
 class SearchResultsAdapter(
     private val onItemClick: (Patient) -> Unit,
-    private val getVillageName: (Long) -> String = { "" }
+    private val getVillageName: (Long) -> String = { "" },
+    private val getFamilyGroupName: (Long?) -> String = { "" }
 ) : ListAdapter<Patient, SearchResultsAdapter.PatientViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_patient_search, parent, false)
-        return PatientViewHolder(view, onItemClick, getVillageName)
+        return PatientViewHolder(view, onItemClick, getVillageName, getFamilyGroupName)
     }
 
     override fun onBindViewHolder(holder: PatientViewHolder, position: Int) {
@@ -35,10 +36,12 @@ class SearchResultsAdapter(
     class PatientViewHolder(
         itemView: View,
         private val onItemClick: (Patient) -> Unit,
-        private val getVillageName: (Long) -> String
+        private val getVillageName: (Long) -> String,
+        private val getFamilyGroupName: (Long?) -> String
     ) : RecyclerView.ViewHolder(itemView) {
         private val patientNameTextView: TextView = itemView.findViewById(R.id.patientNameTextView)
         private val villageTextView: TextView = itemView.findViewById(R.id.villageTextView)
+        private val familyGroupTextView: TextView = itemView.findViewById(R.id.familyGroupTextView)
         private val phoneTextView: TextView = itemView.findViewById(R.id.phoneTextView)
         private val phoneLayout: android.widget.LinearLayout = itemView.findViewById(R.id.phoneLayout)
         private val balanceAmountTextView: TextView = itemView.findViewById(R.id.balanceAmountTextView)
@@ -50,6 +53,14 @@ class SearchResultsAdapter(
         fun bind(patient: Patient) {
             patientNameTextView.text = patient.name
             villageTextView.text = getVillageName(patient.villageId)
+
+            val familyName = getFamilyGroupName(patient.familyGroupId)
+            if (!familyName.isNullOrBlank()) {
+                familyGroupTextView.text = "परिवार: $familyName"
+                familyGroupTextView.visibility = View.VISIBLE
+            } else {
+                familyGroupTextView.visibility = View.GONE
+            }
 
             if (!patient.phone.isNullOrBlank()) {
                 phoneTextView.text = patient.phone

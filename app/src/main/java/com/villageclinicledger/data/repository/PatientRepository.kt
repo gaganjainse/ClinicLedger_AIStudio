@@ -42,6 +42,18 @@ class PatientRepository(private val context: Context) {
         return patientDao.getPatientById(patientId)
     }
 
+    suspend fun getPatientByIdSync(patientId: Long): Patient? {
+        return patientDao.getPatientByIdSync(patientId)
+    }
+
+    suspend fun getLastTransaction(): Transaction? {
+        return transactionDao.getAllTransactionsSync().firstOrNull()
+    }
+
+    suspend fun getDefaultersCount(date: Date): Int {
+        return patientDao.getDefaultersCount(date)
+    }
+
     /** Wraps the search term with SQL LIKE wildcards before delegating to the DAO */
     fun searchPatients(searchQuery: String): LiveData<List<Patient>> {
         return patientDao.searchPatients("%$searchQuery%")

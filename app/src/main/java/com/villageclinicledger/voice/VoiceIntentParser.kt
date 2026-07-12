@@ -25,14 +25,14 @@ enum class IntentType {
 
 object VoiceIntentParser {
 
-    fun parse(text: String): ParsedVoiceIntent {
+    fun parse(text: String, villages: List<com.villageclinicledger.data.models.Village>? = null): ParsedVoiceIntent {
         val clean = text.lowercase(Locale.getDefault()).trim()
             .replace("[.,!?]+".toRegex(), " ")
             .replace("\\s+".toRegex(), " ").trim()
 
         val intent = detectIntent(clean)
         val patientName = extractPatientName(clean)
-        val villageName = extractVillageName(clean)
+        val villageName = extractVillageName(clean, villages)
         val amounts = extractAmounts(clean)
         val medicineAmount = if (intent == IntentType.MEDICINE || intent == IntentType.MEDICINE_AND_PAYMENT) amounts.first else null
         val paymentAmount = if (intent == IntentType.PAYMENT || intent == IntentType.MEDICINE_AND_PAYMENT) amounts.second else null
@@ -133,13 +133,24 @@ object VoiceIntentParser {
         return null
     }
 
-    fun extractVillageName(text: String): String? {
+    fun extractVillageName(text: String, villages: List<com.villageclinicledger.data.models.Village>? = null): String? {
+        val words = text.split("\\s+".toRegex())
+        if (villages != null) {
+            for (word in words) {
+                for (v in villages) {
+                    val engKey = v.name.lowercase()
+                    val hindiKey = v.nameHindi.lowercase()
+                    if (word.contains(engKey) || (hindiKey.isNotEmpty() && word.contains(hindiKey))) {
+                        return v.name
+                    }
+                }
+            }
+        }
         val villageMap = mapOf(
             "siras" to "Siras", "mehtabpura" to "Mehtabpura", "jhilai" to "Jhilai",
             "bassi" to "Bassi", "shyosinghpura" to "Shyosinghpura",
             "mandaliya" to "Mandaliya", "nala" to "Nala", "piplya" to "Piplya"
         )
-        val words = text.split("\\s+".toRegex())
         return words.firstOrNull { word ->
             villageMap.any { (key, _) -> word.contains(key) }
         }?.let { word ->

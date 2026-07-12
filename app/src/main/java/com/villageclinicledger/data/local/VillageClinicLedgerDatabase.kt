@@ -29,7 +29,7 @@ import com.villageclinicledger.data.converters.DateConverter
         Transaction::class,
         FamilyGroup::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)
@@ -50,8 +50,14 @@ abstract class VillageClinicLedgerDatabase : RoomDatabase() {
         private var INSTANCE: VillageClinicLedgerDatabase? = null
 
         private val SEED_VILLAGES = listOf(
-            "Siras", "Mehtabpura", "Jhilai", "Bassi",
-            "Shyosinghpura", "Mandaliya", "Nala", "Piplya"
+            Pair("Siras", "सिरस"),
+            Pair("Mehtabpura", "मेहताबपुरा"),
+            Pair("Jhilai", "झिलाई"),
+            Pair("Bassi", "बस्सी"),
+            Pair("Shyosinghpura", "श्योसिंघपुरा"),
+            Pair("Mandaliya", "मंडालिया"),
+            Pair("Nala", "नला"),
+            Pair("Piplya", "पीपल्या")
         )
 
         fun getDatabase(context: Context): VillageClinicLedgerDatabase {
@@ -65,7 +71,7 @@ abstract class VillageClinicLedgerDatabase : RoomDatabase() {
                         override fun onCreate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
                             super.onCreate(db)
                             for (village in SEED_VILLAGES) {
-                                db.execSQL("INSERT OR IGNORE INTO villages (name) VALUES ('$village')")
+                                db.execSQL("INSERT OR IGNORE INTO villages (name, name_hindi) VALUES ('${village.first}', '${village.second}')")
                             }
                         }
 

@@ -47,6 +47,7 @@ class SearchFragment : Fragment() {
     /** Maps village IDs to display names, refreshed whenever the villages
      * LiveData emits. Used by SearchResultsAdapter to resolve villageId. */
     private var villagesMap: Map<Long, String> = emptyMap()
+    private var familyGroupsMap: Map<Long, String> = emptyMap()
 
     /** Launcher for the RECORD_AUDIO permission request. On grant, opens the
      * voice conversation sheet; on denial, shows a toast explaining why. */
@@ -109,7 +110,8 @@ class SearchFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = SearchResultsAdapter(
             onItemClick = { patient -> openPatientDetail(patient.id) },
-            getVillageName = { villageId -> villagesMap[villageId] ?: "" }
+            getVillageName = { villageId -> villagesMap[villageId] ?: "" },
+            getFamilyGroupName = { groupId -> if (groupId != null) familyGroupsMap[groupId] ?: "" else "" }
         )
         binding.searchResultsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.searchResultsRecyclerView.adapter = adapter
@@ -164,6 +166,11 @@ class SearchFragment : Fragment() {
 
         viewModel.villages.observe(viewLifecycleOwner) { villages ->
             villagesMap = villages.associate { it.id to it.name }
+            adapter.notifyDataSetChanged()
+        }
+
+        viewModel.familyGroups.observe(viewLifecycleOwner) { groups ->
+            familyGroupsMap = groups.associate { it.id to it.name }
             adapter.notifyDataSetChanged()
         }
 

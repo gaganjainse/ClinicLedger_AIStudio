@@ -48,6 +48,17 @@
                 android:textColor="@color/md_theme_light_onSurfaceVariant"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/familyGroupTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Family Group"
+                android:textColor="@color/md_theme_light_primary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

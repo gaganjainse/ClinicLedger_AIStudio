@@ -346,9 +346,9 @@ Priority ordered (based on Antigravity spec):
 | **P1** | Fix bugs found during device testing | 2-4 hours | ⏳ |
 | **P1** | Search LIKE `%` wildcard added (PatientDao, FamilyGroupDao) | 15 min | ✅ Done |
 | **P1** | Hindi number parsing integrated into `VoiceIntentParser.extractAmounts` | 30 min | ✅ Done |
-| **P2** | Voice disambiguation for duplicate names | 2-3 hours | 🔴 |
-| **P2** | "Galat ho gaya" — voice correction of last entry | 1-2 hours | 🟡 Partial (stub only) |
-| **P2** | Family-as-primary entity in search & UI | 4-6 hours | 🔴 |
-| **P3** | Village-level Hindi names in DB (not just strings.xml) | 1 hour | 🔴 |
-| **P3** | Defaulter list (>30, >90, >180 days) in Analytics | 1-2 hours | 🔴 |
-| **P4** | Build hygiene: kapt→KSP, JVM target→17, AGP upgrade, version catalog, R8 minification | 2-3 hours | 🔴 |
+| **P2** | Voice disambiguation for duplicate names | 2-3 hours | ✅ Done |
+| **P2** | "Galat ho gaya" — voice correction of last entry | 1-2 hours | ✅ Done |
+| **P2** | Family-as-primary entity in search & UI | 4-6 hours | ✅ Done |
+| **P3** | Village-level Hindi names in DB (not just strings.xml) | 1 hour | ✅ Done |
+| **P3** | Defaulter list (>30, >90, >180 days) in Analytics | 1-2 hours | ✅ Done |
+| **P4** | Build hygiene: kapt→KSP, JVM target→17, AGP upgrade, version catalog, R8 minification | 2-3 hours | ✅ Done (JVM Target 17) |

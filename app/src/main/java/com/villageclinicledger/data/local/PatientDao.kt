@@ -30,6 +30,10 @@ interface PatientDao {
     @Query("SELECT * FROM patients WHERE id = :patientId")
     fun getPatientById(patientId: Long): LiveData<Patient?>
 
+    /** Non-observable variant of getPatientById for use in coroutine contexts */
+    @Query("SELECT * FROM patients WHERE id = :patientId")
+    suspend fun getPatientByIdSync(patientId: Long): Patient?
+
     /** Non-observable variant of getAllPatients for use in coroutine contexts */
     @Query("SELECT * FROM patients ORDER BY name ASC")
     suspend fun getAllPatientsSync(): List<Patient>
@@ -64,6 +68,10 @@ interface PatientDao {
     /** Finds patients by exact name or alias match — returns up to 5 for disambiguation */
     @Query("SELECT DISTINCT p.* FROM patients p LEFT JOIN aliases a ON p.id = a.patient_id WHERE p.name = :query OR a.alias = :query LIMIT 5")
     suspend fun findPatientsByNameOrAlias(query: String): List<Patient>
+
+    /** Returns count of patients with positive balance and updated_at before the given date */
+    @Query("SELECT COUNT(*) FROM patients WHERE current_balance > 0 AND updated_at < :date")
+    suspend fun getDefaultersCount(date: java.util.Date): Int
 
     @Query("DELETE FROM patients")
     suspend fun deleteAll()
