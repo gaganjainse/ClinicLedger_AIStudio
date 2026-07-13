@@ -4,18 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.villageclinicledger.R
 import com.villageclinicledger.data.models.Alias
+import java.util.Date
 import com.villageclinicledger.data.models.Patient
 import com.villageclinicledger.data.models.Transaction
 import com.villageclinicledger.data.models.Village
 import com.villageclinicledger.ui.patientdetail.adapter.AliasAdapter
 import com.villageclinicledger.ui.patientdetail.adapter.TransactionAdapter
-import com.villageclinicledger.ui.patientdetail.dialog.TransactionDialogFragment
 import com.villageclinicledger.ui.patientdetail.viewmodel.PatientDetailViewModel
 import com.villageclinicledger.databinding.FragmentPatientDetailBinding
 import com.villageclinicledger.ui.util.LayoutScaler
@@ -24,8 +27,7 @@ import com.villageclinicledger.ui.util.LayoutScaler
  * a list of aliases (with long-press to delete), and a chronological list of
  * transactions. Provides buttons to add medicine charges, record payments, and
  * post adjustments (with a required reason field). */
-class PatientDetailFragment : Fragment(),
-    TransactionDialogFragment.TransactionDialogListener {
+class PatientDetailFragment : Fragment() {
 
     private var _binding: FragmentPatientDetailBinding? = null
     private val binding get() = _binding!!
@@ -38,7 +40,7 @@ class PatientDetailFragment : Fragment(),
         private const val ARG_PATIENT_ID = "patient_id"
 
         /** Factory method that creates a fragment instance with the patient ID
-         * passed as a bundle argument. */
+         * passed as a safe-args-style bundle argument. */
         fun newInstance(patientId: Long): PatientDetailFragment {
             val fragment = PatientDetailFragment()
             val args = Bundle()
@@ -48,11 +50,7 @@ class PatientDetailFragment : Fragment(),
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentPatientDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -70,6 +68,9 @@ class PatientDetailFragment : Fragment(),
 
         val patientId = arguments?.getLong(ARG_PATIENT_ID) ?: 0
         if (patientId > 0) {
+            // Setting the patientId triggers the ViewModel's switchMap
+            // transformations, which in turn load the patient details,
+            // alias list, and transaction list from the repository.
             viewModel.loadPatient(patientId)
         }
     }
@@ -94,9 +95,9 @@ class PatientDetailFragment : Fragment(),
     }
 
     private fun setupClickListeners() {
-        binding.btnMedicine.setOnClickListener { showTransactionDialog(TransactionDialogFragment.TransactionType.MEDICINE) }
-        binding.btnPayment.setOnClickListener { showTransactionDialog(TransactionDialogFragment.TransactionType.PAYMENT) }
-        binding.btnAdjustment.setOnClickListener { showTransactionDialog(TransactionDialogFragment.TransactionType.ADJUSTMENT) }
+        binding.btnMedicine.setOnClickListener { showTransactionDialog("medicine") }
+        binding.btnPayment.setOnClickListener { showTransactionDialog("payment") }
+        binding.btnAdjustment.setOnClickListener { showTransactionDialog("adjustment") }
         binding.btnAddAlias.setOnClickListener { showAddAliasDialog() }
     }
 
@@ -169,24 +170,131 @@ class PatientDetailFragment : Fragment(),
         binding.currentBalance.text = patient.formattedBalance
     }
 
-    /** Shows the appropriate transaction dialog based on type. */
-    private fun showTransactionDialog(type: TransactionDialogFragment.TransactionType) {
-        val patient = viewModel.patient.value ?: return
-        TransactionDialogFragment.newInstance(type, patient.currentBalance, patient.id)
-            .show(childFragmentManager, "TransactionDialog")
+    /** Shows a dialog for recording a transaction of the given type.
+     * The "adjustment" type additionally shows a reason field and allows
+     * zero or negative amounts, while "medicine" and "payment" require
+     * a positive amount. */
+    private fun showTransactionDialog(type: String) {
+        val inflater = LayoutInflater.from(requireContext())
+        val dialogView = inflater.inflate(R.layout.dialog_transaction, null)
+        val title = when (type) {
+            "medicine" -> getString(R.string.add_medicine)
+            "payment" -> getString(R.string.record_payment)
+            "adjustment" -> getString(R.string.add_adjustment)
+            else -> getString(R.string.transaction_default)
+        }
+
+        val amountInput = dialogView.findViewById<TextInputEditText>(R.id.transactionAmountInput)
+        val notesInput = dialogView.findViewById<TextInputEditText>(R.id.transactionNotesInput)
+        val reasonLabel = dialogView.findViewById<TextView>(R.id.reasonLabel)
+        val reasonInput = dialogView.findViewById<TextInputEditText>(R.id.transactionReasonInput)
+
+        val chip100 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip100)
+        val chip200 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip200)
+        val chip300 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip300)
+        val chip500 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip500)
+        val chip750 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip750)
+        val chip1000 = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.chip1000)
+        val chipsContainer = dialogView.findViewById<android.view.View>(R.id.chipsContainer)
+
+        LayoutScaler.scaleTextSize(amountInput, 16f)
+        LayoutScaler.scaleTextSize(notesInput, 16f)
+        LayoutScaler.scaleTextSize(reasonInput, 16f)
+
+        // Only adjustments require a reason — medicine charges and payments
+        // use the generic notes field instead.
+        if (type == "adjustment") {
+            reasonLabel.visibility = View.VISIBLE
+            reasonInput.visibility = View.VISIBLE
+            chipsContainer.visibility = View.GONE
+        } else {
+            reasonLabel.visibility = View.GONE
+            reasonInput.visibility = View.GONE
+            chipsContainer.visibility = View.VISIBLE
+            val selectAmount = { amt: String ->
+                amountInput.setText(amt)
+                amountInput.setSelection(amt.length)
+            }
+            chip100.setOnClickListener { selectAmount("100") }
+            chip200.setOnClickListener { selectAmount("200") }
+            chip300.setOnClickListener { selectAmount("300") }
+            chip500.setOnClickListener { selectAmount("500") }
+            chip750.setOnClickListener { selectAmount("750") }
+            chip1000.setOnClickListener { selectAmount("1000") }
+        }
+
+        // Live Balance Preview
+        val previewPrevious = dialogView.findViewById<TextView>(R.id.txtPreviewPrevious)
+        val previewNew = dialogView.findViewById<TextView>(R.id.txtPreviewNew)
+        
+        val initialBalance = viewModel.patient.value?.currentBalance ?: 0.0
+        previewPrevious.text = String.format("पहले का: ₹%,.2f", initialBalance)
+        
+        val updatePreview = {
+            val amt = amountInput.text.toString().toDoubleOrNull() ?: 0.0
+            val newBalance = when (type) {
+                "medicine" -> initialBalance + amt
+                "payment" -> initialBalance - amt
+                "adjustment" -> initialBalance + amt
+                else -> initialBalance
+            }
+            previewNew.text = String.format("नया बकाया: ₹%,.2f", newBalance)
+        }
+        updatePreview()
+
+        amountInput.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updatePreview()
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setView(dialogView)
+            .setPositiveButton(getString(R.string.save)) { _, _ ->
+                val amount = amountInput.text.toString().toDoubleOrNull()
+                // Adjustments can be positive (credit) or negative (debit) but not zero;
+                // medicine and payments must always be positive.
+                val isValid = if (type == "adjustment") amount != null && amount != 0.0 else amount != null && amount > 0
+                if (isValid) {
+                    val patient = viewModel.patient.value ?: return@setPositiveButton
+                    val notes = if (type == "adjustment") {
+                        reasonInput.text.toString()
+                    } else {
+                        notesInput.text.toString()
+                    }
+
+                    viewModel.addTransaction(
+                        Transaction(
+                            patientId = patient.id,
+                            type = type,
+                            amount = amount!!,
+                            notes = notes,
+                            createdAt = Date()
+                        )
+                    )
+                    Toast.makeText(requireContext(), String.format(getString(R.string.transaction_saved), title), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.enter_valid_amount), Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
     }
 
     /** Shows a dialog prompting the user to enter an alternative name (alias)
      * for the current patient. Aliases are useful for finding patients who
      * may be registered under different name spellings. */
     private fun showAddAliasDialog() {
-        val editText = com.google.android.material.textfield.TextInputEditText(requireContext())
+        val editText = TextInputEditText(requireContext())
         editText.hint = getString(R.string.alias_hint)
 
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.add_alias_title)
+            .setTitle(getString(R.string.add_alias_title))
             .setView(editText)
-            .setPositiveButton(R.string.add) { _, _ ->
+            .setPositiveButton(getString(R.string.add)) { _, _ ->
                 val aliasText = editText.text.toString().trim()
                 if (aliasText.isNotBlank()) {
                     val patient = viewModel.patient.value
@@ -195,7 +303,7 @@ class PatientDetailFragment : Fragment(),
                     }
                 }
             }
-            .setNegativeButton(R.string.cancel, null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
@@ -203,12 +311,12 @@ class PatientDetailFragment : Fragment(),
      * delegated to the ViewModel which runs it on a background coroutine. */
     private fun showDeleteAliasDialog(alias: Alias) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.delete_alias_title)
-            .setMessage(R.string.delete_alias_message)
-            .setPositiveButton(R.string.delete) { _, _ ->
+            .setTitle(getString(R.string.delete_alias_title))
+            .setMessage(getString(R.string.delete_alias_message))
+            .setPositiveButton(getString(R.string.delete)) { _, _ ->
                 viewModel.deleteAlias(alias)
             }
-            .setNegativeButton(R.string.cancel, null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
@@ -250,18 +358,5 @@ class PatientDetailFragment : Fragment(),
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    // TransactionDialogFragment.TransactionDialogListener implementation
-
-    override fun onTransactionConfirmed(transaction: Transaction) {
-        viewModel.addTransaction(transaction)
-        val typeLabel = when (transaction.type) {
-            "medicine" -> getString(R.string.add_medicine)
-            "payment" -> getString(R.string.record_payment)
-            "adjustment" -> getString(R.string.add_adjustment)
-            else -> getString(R.string.transaction_default)
-        }
-        Toast.makeText(requireContext(), String.format(getString(R.string.transaction_saved), typeLabel), Toast.LENGTH_SHORT).show()
     }
 }
