@@ -29,9 +29,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
-/** Main entry point of the app. Hosts a SearchFragment via the nav host and
+/**
+ * Main entry point of the app. Hosts SearchFragment via the nav host and
  * provides the toolbar menu for navigation to villages, analytics, backup,
- * and language settings. Also handles the FAB-triggered add-patient dialog. */
+ * and language settings. Also handles the FAB-triggered add-patient dialog
+ * and the persistent voice-input bottom bar.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -52,23 +55,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val screenHeight = resources.displayMetrics.heightPixels
-        val screenWidth = resources.displayMetrics.widthPixels
-        val scaleX = screenWidth.toFloat() / 1080f
-        val scaleY = screenHeight.toFloat() / 2400f
-
-        // Bottom safe area is 2300-2400 px (100 px from bottom).
-        // Let's set bottom margin of voiceBottomBar to include this safe area.
-        val bottomMargin = (48 * scaleY).toInt() + (100 * scaleY).toInt()
-        val voiceLp = binding.voiceBottomBar.layoutParams as? ViewGroup.MarginLayoutParams
-        voiceLp?.let {
-            it.height = (180 * scaleY).toInt()
-            it.leftMargin = (48 * scaleX).toInt()
-            it.rightMargin = (48 * scaleX).toInt()
-            it.bottomMargin = bottomMargin
-            binding.voiceBottomBar.layoutParams = it
-        }
-
+        setupVoiceBarScaling()
         setSupportActionBar(binding.toolbar)
 
         loadVillages()
@@ -88,6 +75,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Apply screen-size-aware scaling to the persistent voice bottom bar. */
+    private fun setupVoiceBarScaling() {
+        val screenHeight = resources.displayMetrics.heightPixels
+        val screenWidth = resources.displayMetrics.widthPixels
+        val scaleX = screenWidth.toFloat() / 1080f
+        val scaleY = screenHeight.toFloat() / 2400f
+
+        // Bottom safe area is ~100px from bottom edge
+        val bottomMargin = (48 * scaleY).toInt() + (100 * scaleY).toInt()
+        val voiceLp = binding.voiceBottomBar.layoutParams as? ViewGroup.MarginLayoutParams
+        voiceLp?.let {
+            it.height = (180 * scaleY).toInt()
+            it.leftMargin = (48 * scaleX).toInt()
+            it.rightMargin = (48 * scaleX).toInt()
+            it.bottomMargin = bottomMargin
+            binding.voiceBottomBar.layoutParams = it
+        }
+    }
+
+    /** Opens the VoiceInputSheet bottom sheet. */
     private fun openVoiceSheet() {
         VoiceInputSheet().show(supportFragmentManager, "VoiceInputSheet")
     }
@@ -106,9 +113,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    /** Dispatches toolbar item clicks to the appropriate activity or dialog.
-     * Opens Analytics, VillageManagement, Backup activities, or the language
-     * switcher dialog depending on which menu item was tapped. */
+    /** Dispatches toolbar item clicks to the appropriate activity or dialog. */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_analytics -> {

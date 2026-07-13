@@ -64,6 +64,9 @@
     <string name="transaction_default">Transaction (लेनदेन)</string>
     <string name="transaction_saved">%1$s saved (सहेजा गया %1$s)</string>
     <string name="enter_valid_amount">Enter a valid amount (एक वैध राशि दर्ज करें)</string>
+    <string name="enter_reason">Please enter a reason for adjustment (समायोजन का कारण दर्ज करें)</string>
+    <string name="preview_previous">Previous: ₹%,.2f (पहले का: ₹%,.2f)</string>
+    <string name="preview_new">New balance: ₹%,.2f (नया बकाया: ₹%,.2f)</string>
 
     <!-- SearchFragment / Quick Entry -->
     <string name="quick_entry_title">Quick Entry (त्वरित प्रविष्टि)</string>
@@ -89,7 +92,7 @@
     <string name="voice_payment_confirmation">%1$s se ₹%2$s praapt hue hain. Naya baki ₹%3$s bachega. Kya yeh sahi hai?</string>
     <string name="voice_medicine_payment_confirmation">%1$s ke liye ₹%2$s ki dava aur ₹%3$s praapt hue hain. Naya baki ₹%4$s ho jayega. Kya sahi hai?</string>
     <string name="voice_listening_hint">Bolein (बोलें), like \"Ramesh ko 200 ki dawa di\" or \"Suresh ka baki batayein\"</string>
-    <string name="voice_mic_hold_hint">Say \"Yes\" to confirm, \"No\" to change (सही होने पर \"हाँ\" बोलें, बदलने के लिए \"नहीं\" बोलें)</string>
+    <string name="voice_mic_hold_hint">Say "Yes" to confirm, "No" to change (सही होने पर "हाँ" बोलें, बदलने के लिए "नहीं" बोलें)</string>
 
     <!-- BackupActivity -->
     <string name="exported_to">Exported to: %1$s (निर्यात किया गया: %1$s)</string>
@@ -98,7 +101,7 @@
     <string name="import_failed">Import failed: %1$s (आयात विफल: %1$s)</string>
     <string name="status_exported">Saved: %1$s (सहेजा गया: %1$s)</string>
     <string name="status_imported">Imported %1$d patients, %2$d villages, %3$d aliases, %4$d transactions (रोगी, गाँव, उपनाम, लेनदेन आयात किए गए)</string>
-    <string name="backup_title">Backup &amp; Restore (बैकअप और पुनर्स्थापना)</string>
+    <string name="backup_title">Backup & Restore (बैकअप और पुनर्स्थापना)</string>
     <string name="export_data">Export Data (JSON) (डेटा निर्यात करें)</string>
     <string name="import_data">Import Data (JSON) (डेटा आयात करें)</string>
 
