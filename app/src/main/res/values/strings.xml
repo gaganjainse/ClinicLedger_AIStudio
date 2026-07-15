@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    String resources for Village Clinic Ledger (Pure English).
+-->
+<resources>
+    <!-- App-level -->
+    <string name="app_name">Village Clinic Ledger</string>
+
+    <!-- Search & patient lookup -->
+    <string name="search_hint">Search by name, village, or phone</string>
+    <string name="search_title">Search Patients</string>
+    <string name="empty_state_title">Search for patients</string>
+    <string name="empty_state_message">Enter patient name, village, or phone</string>
+    <string name="patient_details_title">Patient Details</string>
+    <string name="current_balance_label">Current Balance</string>
+    <string name="total_due_label">Total Due</string>
+    <string name="collected_today_label">Collected Today</string>
+    <string name="recent_patients">Recent Patients</string>
+    <string name="recent_patients_count">Recent Patients (%1$d Patients)</string>
+
+    <!-- Dashboard buttons -->
+    <string name="dashboard_add_patient">Add Patient</string>
+    <string name="dashboard_quick_entry">Quick Entry</string>
+    <string name="dashboard_stats">Stats</string>
+    <string name="dashboard_villages">Villages</string>
+
+    <!-- Aliases -->
+    <string name="aliases_title">Aliases</string>
+    <string name="add_alias_button">+ Add</string>
+    <string name="delete_alias_title">Delete Alias</string>
+    <string name="delete_alias_message">Are you sure you want to delete this alias?</string>
+    <string name="add_alias_title">Add Alias</string>
+    <string name="alias_hint">Enter alias</string>
+
+    <!-- Transactions -->
+    <string name="transaction_history_title">Transaction History</string>
+    <string name="medicine_type">Medicine</string>
+    <string name="payment_type">Payment</string>
+    <string name="adjustment_type">Adjustment</string>
+    <string name="balance_preview">Balance Preview</string>
+
+    <!-- Generic action buttons (shared across screens) -->
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="save">Save</string>
+    <string name="adjust_btn">Adjust</string>
+    <string name="edit_btn">Edit</string>
+    <string name="saved">Saved</string>
+
+    <!-- MainActivity / Add Patient dialog -->
+    <string name="add_patient_title">Add Patient</string>
+    <string name="name_required">Name is required</string>
+    <string name="patient_added">Patient added</string>
+    <string name="menu_language">Language</string>
+    <string name="select_language">Select Language</string>
+    <string name="lang_english">English</string>
+    <string name="lang_hindi">Hindi</string>
+
+    <!-- VillageManagementActivity -->
+    <string name="village_added">Village added</string>
+    <string name="edit_village_title">Edit Village</string>
+    <string name="delete_village_title">Delete Village</string>
+    <string name="delete_village_message">Are you sure you want to delete %1$s?</string>
+
+    <!-- Family groups -->
+    <string name="family_label">Family: %1$s</string>
+    <string name="family_members_header">Family Members</string>
+    <string name="no_family_group">No family group</string>
+
+    <!-- PatientDetailFragment / Transaction dialogs -->
+    <string name="add_medicine">Add Medicine</string>
+    <string name="record_payment">Record Payment</string>
+    <string name="add_adjustment">Add Adjustment</string>
+    <string name="transaction_default">Transaction</string>
+    <string name="transaction_saved">%1$s saved</string>
+    <string name="enter_valid_amount">Enter a valid amount</string>
+
+    <!-- SearchFragment / Quick Entry -->
+    <string name="quick_entry_title">Quick Entry</string>
+    <string name="select_patient">Select a patient</string>
+    <string name="patient_not_found">Patient not found. Add patient first.</string>
+
+    <!-- Voice search / TTS spoken strings kept natural Hindi/English -->
+    <string name="voice_balance_title">Patient Found</string>
+    <string name="voice_balance_message">Outstanding balance: ₹%1$s</string>
+    <string name="voice_open">Open</string>
+    <string name="voice_not_found">Patient not found: %1$s</string>
+    <string name="voice_balance_spoken">%1$s has a balance of %2$s rupees.</string>
+    <string name="voice_not_found_spoken">Please note, no patient with name %s was found.</string>
+    <string name="voice_confirm_question">Is this information correct?</string>
+    <string name="voice_saved">Your transaction has been successfully saved.</string>
+    <string name="error_no_match">Could not understand</string>
+    <string name="error_speech_timeout">No speech detected</string>
+    <string name="error_generic_format">Error: %1$d</string>
+    <string name="voice_try_again">Okay, no problem. Please speak again.</string>
+    <string name="voice_ask_medicine_amount">Please state the medicine amount?</string>
+    <string name="voice_ask_payment_amount">Please state the payment amount received?</string>
+    <string name="voice_disambiguation">I found two patients with this name. %1$s from %2$s village, or %1$s from %3$s?</string>
+    <string name="voice_correction_done">Your previous entry has been successfully deleted. New balance is ₹%s.</string>
+    <string name="voice_new_patient_confirm">New patient %1$s, village %2$s. Should I add them?</string>
+    <string name="voice_medicine_confirmation">Recording ₹%2$s medicine for %1$s. Total balance will be ₹%3$s. Is this correct?</string>
+    <string name="voice_payment_confirmation">Received ₹%2$s from %1$s. New balance will be ₹%3$s. Is this correct?</string>
+    <string name="voice_medicine_payment_confirmation">Recording ₹%2$s medicine and ₹%3$s payment received for %1$s. New balance will be ₹%4$s. Is this correct?</string>
+    <string name="voice_listening_hint">Speak, e.g., \"Record medicine 200 for Ramesh\" or \"Show Suresh balance\"</string>
+    <string name="voice_mic_hold_hint">Say \"Yes\" to confirm, or \"No\" to change</string>
+    <string name="voice_yes_btn">Yes</string>
+    <string name="voice_no_btn">No</string>
+
+    <!-- BackupActivity -->
+    <string name="exported_to">Exported to: %1$s</string>
+    <string name="export_failed">Export failed: %1$s</string>
+    <string name="import_successful">Import successful!</string>
+    <string name="import_failed">Import failed: %1$s</string>
+    <string name="status_exported">Saved: %1$s</string>
+    <string name="status_imported">Imported %1$d patients, %2$d villages, %3$d aliases, %4$d transactions</string>
+    <string name="backup_title">Backup &amp; Restore</string>
+    <string name="export_data">Export Data (JSON)</string>
+    <string name="import_data">Import Data (JSON)</string>
+
+    <!-- Auto backup -->
+    <string name="auto_backup_enabled">Auto backup enabled (daily)</string>
+    <string name="auto_backup_disabled">Auto backup disabled</string>
+    <string name="last_backup">Last backup: %1$s</string>
+    <string name="no_backup_yet">No backup yet</string>
+
+    <!-- Analytics screen -->
+    <string name="analytics_title">Analytics</string>
+    <string name="today_summary">Today</string>
+    <string name="week_summary">This Week</string>
+    <string name="month_summary">This Month</string>
+    <string name="medicine_dues">Medicine Dues</string>
+    <string name="payments_received">Payments Received</string>
+    <string name="top_patients">Top Patients (Highest Balance)</string>
+
+    <string name="collection_overview">Collection Overview</string>
+    <string name="payments_label">Payments</string>
+    <string name="dues_charged_label">Dues Charged</string>
+    <string name="trend_analysis">Trend Analysis</string>
+    <string name="dues_label">Dues</string>
+    <string name="paid_label">Paid</string>
+    <string name="today_label">Today</string>
+    <string name="week_label">Week</string>
+    <string name="month_label">Month</string>
+    <string name="defaulters_list">Defaulters List</string>
+    <string name="top_dues_patients">Top Patients by Outstanding Dues</string>
+    <string name="days_30">> 30 Days</string>
+    <string name="days_90">> 90 Days</string>
+    <string name="days_180">> 180 Days</string>
+
+    <!-- Input dialog hints and labels -->
+    <string name="hint_patient">Patient *</string>
+    <string name="hint_new_village">New village name</string>
+    <string name="hint_name_required">Name *</string>
+    <string name="hint_phone_optional">Phone (optional)</string>
+    <string name="villages_title">Villages</string>
+    <string name="hint_village">Village</string>
+    <string name="hint_amount">Amount</string>
+    <string name="hint_amount_required">Amount *</string>
+    <string name="hint_notes_optional">Notes (optional)</string>
+    <string name="hint_reason_adjustment">Reason for adjustment</string>
+    <string name="balance_label">Balance:</string>
+    <string name="type_label">Type</string>
+    <string name="reason_label">Reason</string>
+
+    <!-- New UI Separation Strings -->
+    <string name="tab_ledger">Ledger</string>
+    <string name="tab_memory">Memory</string>
+    <string name="all_villages">All Villages</string>
+    <string name="village_networks">Village Networks</string>
+    <string name="clinic_memory_os">Clinic Memory OS</string>
+    <string name="clinic_memory_desc">Memories of patients, families, and villages.</string>
+    <string name="search_results">Search Results (%1$d)</string>
+    <string name="no_patients_found">No Patients</string>
+    <string name="no_matches_found">No Matches Found</string>
+    <string name="press_add_patient">Press + to add a new patient</string>
+    <string name="try_searching_different_name">Try searching with a different name or village</string>
+    <string name="voice_entry">Voice Mic</string>
+    <string name="villages_menu">Villages</string>
+    <string name="backup_menu">Backup</string>
+    <string name="family_header_text">Family: %1$s</string>
+    <string name="patient_name_label">Patient Name</string>
+    <string name="phone_number_optional">Phone Number (Optional)</string>
+    <string name="select_village_label">Select Village</string>
+    <string name="village_label">Village</string>
+    <string name="aliases_label">Aliases (Alternate Identification Names):</string>
+    <string name="medicine_button">Medicine</string>
+    <string name="payment_button">Payment</string>
+    <string name="adjust_button">Adjust</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="add_alias">Add Alias</string>
+    <string name="alias_name_hint">Alias (e.g. Chotu, Ramu)</string>
+    <string name="link_family_group">Link Family Group</string>
+    <string name="unlink_family">Unlink Family</string>
+    <string name="add_medicine_charge">Add Medicine Charge</string>
+    <string name="record_payment_received">Record Payment Received</string>
+    <string name="add_adjustment_dialog">Add Adjustment</string>
+    <string name="medicine_amount_label">Medicine Amount (₹)</string>
+    <string name="payment_received_label">Payment Received (₹)</string>
+    <string name="adjustment_amount_label">Adjustment Amount (₹) (Positive or Negative)</string>
+    <string name="medicine_detail_placeholder">Medicine name or detail (e.g. Fever pill)</string>
+    <string name="receipt_note_placeholder">Receipt number or detail (e.g. Cash)</string>
+    <string name="reason_adjustment_placeholder">Reason for adjustment</string>
+    <string name="notes_optional_label">Notes (Optional)</string>
+    <string name="family_group_title">Family Group</string>
+    <string name="change_button">Change</string>
+    <string name="link_button">Link</string>
+    <string name="other_members_header">Other Members (Tap to view details):</string>
+    <string name="no_other_members_in_group">No other members in this group</string>
+    <string name="patient_not_linked_to_family">This patient is not linked to any family group.</string>
+    <string name="no_transactions">No Transactions</string>
+    <string name="first_transaction_hint">Tap buttons below to add medication or payments.</string>
+    <string name="settled_label">Settled</string>
+    <string name="total_due_sub">Total Due</string>
+    <string name="profile_updated_toast">Profile updated successfully</string>
+    <string name="family_linked_toast">Family linked successfully</string>
+    <string name="transaction_recorded_toast">Transaction recorded successfully</string>
+
+    <!-- Analytics Screen Strings -->
+    <string name="financial_analytics_title">Financial Analytics</string>
+    <string name="overdue_dues_period">Overdue Dues Period</string>
+    <string name="top_10_outstanding_balances">Top 10 Outstanding Balances</string>
+    <string name="all_outstanding_balances">All Outstanding Balances</string>
+    <string name="see_all">See All</string>
+    <string name="show_less">Show Less</string>
+    <string name="no_outstanding_balances">No Outstanding Balances</string>
+    <string name="everyone_settled_msg">Everyone is fully settled.</string>
+    <string name="monthly_ratio">Monthly Ratio</string>
+    <string name="total_payments_amount_label">Total Payments: ₹%1$d</string>
+    <string name="total_medicine_amount_label">Total Medicine: ₹%1$d</string>
+    <string name="dues_vs_collection">Dues vs Collection</string>
+    <string name="more_than_30_days">> 30 Days</string>
+    <string name="more_than_90_days">> 90 Days</string>
+    <string name="more_than_180_days">> 180 Days</string>
+    <string name="patients_count">%1$d Patients</string>
+    <string name="no_village">No Village</string>
+
+    <!-- Village & Family Management Screen Strings -->
+    <string name="villages_families_title">Villages &amp; Families</string>
+    <string name="tab_villages">Villages</string>
+    <string name="tab_family_groups">Family Groups</string>
+    <string name="new_village_placeholder">Enter New Village</string>
+    <string name="new_family_placeholder">Enter New Family Group</string>
+    <string name="added_successfully_toast">Added successfully</string>
+    <string name="no_villages_title">No Villages</string>
+    <string name="no_villages_msg">Add a village name above to get started.</string>
+    <string name="no_families_title">No Family Groups</string>
+    <string name="no_families_msg">Add a family group name above to get started.</string>
+    <string name="edit_village_header">Edit Village</string>
+    <string name="village_name_label">Village Name</string>
+    <string name="edit_family_header">Edit Family Group</string>
+    <string name="family_name_label">Family Name</string>
+    <string name="delete_village_confirm">Are you sure you want to delete \"%1$s\"?</string>
+    <string name="village_deleted_toast">Village deleted</string>
+    <string name="delete_failed_patients_linked">Delete failed: %1$s</string>
+    <string name="family_deleted_toast">Family group deleted</string>
+    <string name="delete_family_title">Delete Family Group</string>
+    <string name="delete_family_confirm">Are you sure you want to delete \"%1$s\"?</string>
+
+    <!-- Backup & Restore Screen Strings -->
+    <string name="local_ledger_healthy">Local Ledger is Healthy</string>
+    <string name="could_not_open_file">Could not open file</string>
+    <string name="unsupported_backup_version">Unsupported backup version %1$d. Expected %2$d.</string>
+    <string name="import_success_status">Imported successfully: %1$d Patients, %2$d Villages</string>
+    <string name="import_failed_msg">Import failed: %1$s</string>
+    <string name="backup_restore_title">Backup &amp; Restore</string>
+    <string name="ledger_backup_center_title">Ledger Backup Center</string>
+    <string name="backup_center_description">Secure your ledger data or restore a previous save point locally.</string>
+    <string name="auto_backup_label">Auto-Backup</string>
+    <string name="backup_enabled">Enabled</string>
+    <string name="backup_disabled">Disabled</string>
+    <string name="last_auto_backup_status">Last Auto Backup: %1$s</string>
+    <string name="no_auto_backup_yet">No Auto Backup yet</string>
+    <string name="export_success_status">Exported successfully to: %1$s</string>
+    <string name="export_failed_msg">Export failed: %1$s</string>
+    <string name="create_backup_button">Create Backup File</string>
+    <string name="restore_backup_button">Restore Backup File</string>
+
+    <!-- Search metrics -->
+    <string name="dashboard_metrics_title">Dashboard &amp; Metrics</string>
+    <string name="total_registered_villages">Total Registered Villages</string>
+    <string name="total_family_groups">Total Family Groups</string>
+    <string name="unlinked_patients_label">Unlinked Patients</string>
+    <string name="highest_pending_patient_label">Highest Pending Patient</string>
+    <string name="unlinked_memories_label">Unlinked Clinic Memories</string>
+    <string name="unlinked_patients_warning">%1$d patients need to be linked to their family.</string>
+
+    <!-- Database Management -->
+    <string name="database_management_title">Database Maintenance</string>
+    <string name="clear_all_data_button">Clear All Ledger Data</string>
+    <string name="import_demo_data_button">Import Demo/Sample Data</string>
+    <string name="clear_confirm_title">Confirm Clear All Data</string>
+    <string name="clear_confirm_message">Are you sure you want to delete all patients, family groups, aliases, and transaction histories? This action is irreversible!</string>
+    <string name="demo_confirm_title">Confirm Demo Import</string>
+    <string name="demo_confirm_message">Are you sure you want to load the demo database? This will clear all your current ledger records and insert sample clinic data.</string>
+    <string name="clear_success_toast">Ledger database cleared successfully.</string>
+    <string name="demo_success_toast">Demo data imported successfully.</string>
+    <string name="clear_confirm_yes">Yes, Clear All</string>
+    <string name="demo_confirm_yes">Yes, Load Demo</string>
+
+    <!-- Restore overwrite check -->
+    <string name="restore_confirm_title">Are you sure?</string>
+    <string name="restore_confirm_message">This action will restore the ledger from the selected file. Any records with matching IDs will be updated/overwritten. This cannot be undone.</string>
+    <string name="restore_confirm_yes">Yes, Restore</string>
+    <string name="restore_confirm_no">Cancel</string>
+
+    <!-- Dashboard & Snapshots -->
+    <string name="welcome_doctor">Welcome Doctor!</string>
+    <string name="today_snapshots">Today\'s Snapshots (%1$s)</string>
+    <string name="recovery_today_label">Recovery Today</string>
+    <string name="recovery_today_value">₹%1$d Received</string>
+    <string name="outstanding_ledger_label">Outstanding Ledger</string>
+    <string name="outstanding_ledger_value">₹%1$d Pending (%2$d Active Families)</string>
+    <string name="tap_to_view_memory_details">Tap to expand and view today\'s clinic insights.</string>
+    <string name="institutional_insights">Institutional Insights</string>
+    <string name="quick_facts">Quick Facts</string>
+    <string name="highest_pending_patient_value">%1$s (₹%2$d)</string>
+    <string name="new_family_toast">New family group saved successfully!</string>
+    <string name="create_family_dialog_title">Create Family Group</string>
+    <string name="family_name_field_label">Family Name (e.g. Sharma Family)</string>
+    <string name="caste_optional_label">Caste (Optional)</string>
+    <string name="head_name_optional_label">Head Name (Optional)</string>
+    <string name="create_family_button_label">Create</string>
+    <string name="relationship_label">Relationship (e.g. Son, Daughter, Wife, Father)</string>
+    <string name="select_family_group_label">Select Family Group (Optional)</string>
+
+    <!-- Family Groups on Search Screen -->
+    <string name="family_groups_section_title">Family Groups</string>
+    <string name="new_family_button">+ Family</string>
+    <string name="no_families_in_village_msg">No family groups found in this village. Use the button above to create one.</string>
+    <string name="caste_label_prefix">Caste: %1$s</string>
+    <string name="head_label_prefix">Head: %1$s</string>
+    <string name="relationship_label_prefix">Relationship: %1$s</string>
+    <string name="family_members_count_title">Family Members (%1$d):</string>
+    <string name="no_members_linked_to_family">No members linked to this family yet.</string>
+    <string name="patient_name_placeholder">e.g., Ramesh Kumar</string>
+    <!-- Days of week -->
+    <string name="day_sunday">Sunday</string>
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="day_friday">Friday</string>
+    <string name="day_saturday">Saturday</string>
+
+    <!-- Voice Assistant Strings -->
+    <string name="voice_assistant_title">Voice Assistant</string>
+    <string name="status_listening">Listening…</string>
+    <string name="status_processing">Processing…</string>
+    <string name="status_confirming">Confirm details:</string>
+    <string name="status_saving">Saving…</string>
+    <string name="status_saved_successfully">Saved Successfully!</string>
+    <string name="status_please_speak_again">Please Speak Again</string>
+    <string name="status_ready">Ready</string>
+    <string name="disambiguation_title">Disambiguation</string>
+    <string name="disambiguation_instruction">Choose 1st or 2nd</string>
+    <string name="confirm_add_new_patient">Would you like to add this new patient?</string>
+    <string name="new_patient_title_format">New Patient: %1$s</string>
+    <string name="which_patient">Which patient?</string>
+    <string name="yes_text">Yes</string>
+    <string name="no_text">No</string>
+    <string name="attribution_speech_recognizer">Voice Assistant</string>
+</resources>

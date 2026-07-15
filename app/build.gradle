@@ -1,0 +1,118 @@
+/*
+    App-level build configuration for Village Clinic Ledger.
+
+    Plugins:
+    - com.android.application    – Standard Android app module plugin.
+    - kotlin.android             – Kotlin compiler & stdlib integration.
+    - kotlin.kapt                – Annotation processing (used by Room).
+    - kotlin.plugin.parcelize    – Auto-generates Parcelable implementations
+                                   for data classes (avoids boilerplate).
+*/
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize)
+}
+
+/*
+    Android block – SDK versions and build configuration.
+
+    - compileSdk / targetSdk 34: Targets Android 14 (API 34) to use the latest
+      APIs while minSdk 24 ensures compatibility with devices back to Android 7.
+    - minSdk 24: Chosen because Room, WorkManager, and modern coroutines
+      require API 24+ for reliable behaviour.
+    - viewBinding: Enabled for type-safe view access without the overhead of
+      Data Binding (the project prefers explicit binding classes).
+    - proguard: Currently disabled (minifyEnabled false); can be enabled when
+      the app is prepared for release distribution.
+    - JVM target 1.8: Required for broad compatibility with Android runtimes.
+*/
+android {
+    namespace = 'com.villageclinicledger'
+    compileSdk = 37
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(26)
+        }
+    }
+
+    defaultConfig {
+        applicationId = "com.villageclinicledger"
+        minSdk = 24
+        targetSdk = 37
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+
+        // Inject the GEMINI_API_KEY from environment variables or a local file
+        def geminiKey = System.getenv("GEMINI_API_KEY") ?: ""
+        buildConfigField "String", "GEMINI_API_KEY", "\"${geminiKey}\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_26
+        targetCompatibility JavaVersion.VERSION_26
+    }
+
+    buildFeatures {
+        viewBinding = true
+        compose = true
+        buildConfig = true
+    }
+
+    packaging {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+/*
+    Dependencies – grouped by purpose for clarity.
+
+    Core AndroidX   : core-ktx, appcompat, fragment-ktx
+    UI              : Material 3, ConstraintLayout, RecyclerView, CardView
+    Architecture    : ViewModel + LiveData (lifecycle), Navigation component
+    Database        : Room (runtime + KTX + compiler via kapt)
+    Background      : WorkManager (for future sync/backup scheduling)
+    Serialisation   : Gson (for JSON export/import in BackupActivity)
+    Async           : kotlinx-coroutines-android
+    Testing         : JUnit + AndroidX Test + Espresso
+*/
+dependencies {
+    implementation libs.core.ktx
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.constraintlayout
+    implementation libs.fragment.ktx
+    implementation libs.recyclerview
+    implementation libs.coroutines.android
+    implementation libs.gson
+    implementation libs.work.runtime.ktx
+
+    implementation libs.bundles.lifecycle
+    implementation libs.bundles.navigation
+    implementation libs.bundles.room
+    ksp libs.room.compiler
+
+    // Jetpack Compose
+    implementation platform(libs.compose.bom)
+    implementation libs.bundles.compose
+
+    testImplementation libs.junit
+    androidTestImplementation libs.test.ext.junit
+    androidTestImplementation libs.espresso.core
+}

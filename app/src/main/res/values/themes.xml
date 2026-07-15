@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    App theme and widget styles for Village Clinic Ledger.
+
+    Uses Material 3 (Material You) as the design system. Two colour schemes
+    are defined – light (default) and dark – both inheriting from the
+    NoActionBar variants since the app manages its own toolbar/top bar.
+
+    Custom widget styles (Button.Large, TextInputLayout, Card) are defined
+    here to keep layout XMLs clean and to enforce consistent sizing and
+    spacing across all screens.
+-->
+<resources>
+    <!--
+        Light theme – default.
+        Colour tokens reference generated M3 colours from colors.xml.
+        Status bar and navigation bar are styled to match the surface colour
+        for a seamless edge-to-edge look.
+    -->
+    <style name="Theme.VillageClinicLedger" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
+        <item name="colorError">@color/md_theme_light_error</item>
+        <item name="colorOnError">@color/md_theme_light_onError</item>
+        <item name="colorSurface">@color/md_theme_light_surface</item>
+        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_light_outline</item>
+        <item name="android:statusBarColor">@color/md_theme_light_surface</item>
+        <item name="android:navigationBarColor">@color/md_theme_light_surface</item>
+        <item name="android:windowBackground">@color/md_theme_light_surface</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CircleImage" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>
