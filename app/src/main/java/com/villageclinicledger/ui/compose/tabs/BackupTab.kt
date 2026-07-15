@@ -28,7 +28,7 @@ import com.villageclinicledger.R
 import com.villageclinicledger.data.local.VillageClinicLedgerDatabase
 import com.villageclinicledger.service.BackupService
 import com.villageclinicledger.ui.backup.BackupData
-import com.villageclinicledger.ui.compose.BackupLogger
+import com.villageclinicledger.ui.util.BackupLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -48,15 +48,20 @@ fun BackupTab() {
     var statusMessage by remember { mutableStateOf("") }
     var operationProgress by remember { mutableStateOf(false) }
 
+    val errorOpenFileMsg = stringResource(R.string.could_not_open_file)
+    val importSuccessMsg = stringResource(R.string.import_successful)
+    val clearSuccessMsg = stringResource(R.string.clear_success_toast)
+    val demoSuccessMsg = stringResource(R.string.demo_success_toast)
+    val localLedgerHealthyMsg = stringResource(R.string.local_ledger_healthy)
+
     fun refreshStatus() {
         autoBackupEnabled = BackupService.isBackupScheduled(context)
         lastBackupTime = BackupService.getLastBackupTime(context)
     }
 
-    val defaultStatus = stringResource(R.string.local_ledger_healthy)
     LaunchedEffect(Unit) {
         refreshStatus()
-        statusMessage = defaultStatus
+        statusMessage = localLedgerHealthyMsg
     }
 
     var showRestoreConfirmDialog by remember { mutableStateOf(false) }
@@ -71,7 +76,7 @@ fun BackupTab() {
                 val inputStream = context.contentResolver.openInputStream(uri)
                 if (inputStream == null) {
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(context, context.getString(R.string.could_not_open_file), Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, errorOpenFileMsg, Toast.LENGTH_LONG).show()
                         operationProgress = false
                     }
                     return@launch
@@ -81,7 +86,8 @@ fun BackupTab() {
 
                 if (backupData.version != BackupData.CURRENT_VERSION) {
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(context, context.getString(R.string.unsupported_backup_version, backupData.version, BackupData.CURRENT_VERSION), Toast.LENGTH_LONG).show()
+                        val msg = context.applicationContext.getString(R.string.unsupported_backup_version, backupData.version, BackupData.CURRENT_VERSION)
+                        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
                         operationProgress = false
                     }
                     return@launch
@@ -98,14 +104,15 @@ fun BackupTab() {
                 }
 
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, context.getString(R.string.import_successful), Toast.LENGTH_LONG).show()
-                    statusMessage = context.getString(R.string.import_success_status, backupData.patients.size, backupData.villages.size)
+                    Toast.makeText(context, importSuccessMsg, Toast.LENGTH_LONG).show()
+                    statusMessage = context.applicationContext.getString(R.string.import_success_status, backupData.patients.size, backupData.villages.size)
                     BackupLogger.logEvent(context, "Restored backup (${backupData.patients.size} patients)")
                     operationProgress = false
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, context.getString(R.string.import_failed_msg, e.message), Toast.LENGTH_LONG).show()
+                    val msg = context.applicationContext.getString(R.string.import_failed_msg, e.message)
+                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
                     operationProgress = false
                 }
             }
@@ -118,9 +125,9 @@ fun BackupTab() {
             try {
                 com.villageclinicledger.data.util.DataSeeder.clearAllData(context)
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, context.getString(R.string.clear_success_toast), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, clearSuccessMsg, Toast.LENGTH_LONG).show()
                     refreshStatus()
-                    statusMessage = context.getString(R.string.local_ledger_healthy)
+                    statusMessage = localLedgerHealthyMsg
                     BackupLogger.logEvent(context, "Cleared all local data")
                     operationProgress = false
                 }
@@ -139,9 +146,9 @@ fun BackupTab() {
             try {
                 com.villageclinicledger.data.util.DataSeeder.seedDemoDataForce(context)
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, context.getString(R.string.demo_success_toast), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, demoSuccessMsg, Toast.LENGTH_LONG).show()
                     refreshStatus()
-                    statusMessage = context.getString(R.string.local_ledger_healthy)
+                    statusMessage = localLedgerHealthyMsg
                     BackupLogger.logEvent(context, "Seeded demo data")
                     operationProgress = false
                 }
@@ -262,12 +269,13 @@ fun BackupTab() {
                             file.writeText(json)
 
                             withContext(Dispatchers.Main) {
-                                statusMessage = context.getString(R.string.export_success_status, fileName)
+                                statusMessage = context.applicationContext.getString(R.string.export_success_status, fileName)
                                 operationProgress = false
                             }
                         } catch (e: Exception) {
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(context, context.getString(R.string.export_failed_msg, e.message), Toast.LENGTH_LONG).show()
+                                val msg = context.applicationContext.getString(R.string.export_failed_msg, e.message)
+                                Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
                                 operationProgress = false
                             }
                         }

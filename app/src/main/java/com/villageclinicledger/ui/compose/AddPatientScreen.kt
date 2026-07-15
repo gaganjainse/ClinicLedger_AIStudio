@@ -53,6 +53,9 @@ fun AddPatientScreen(
     var expanded by remember { mutableStateOf(false) }
     var familyExpanded by remember { mutableStateOf(false) }
 
+    val patientAddedMsg = stringResource(R.string.patient_added)
+    val failedMsg = "Failed to add patient" // Fallback since resource is missing
+
     ClinicScaffold(
         title = stringResource(R.string.add_patient_title),
         onBack = onNavigateBack
@@ -256,10 +259,10 @@ fun AddPatientScreen(
                                         )
                                     )
                                 }
-                                Toast.makeText(context, context.getString(R.string.patient_added), Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, patientAddedMsg, Toast.LENGTH_SHORT).show()
                                 onPatientAdded()
                             } catch (e: Exception) {
-                                Toast.makeText(context, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }

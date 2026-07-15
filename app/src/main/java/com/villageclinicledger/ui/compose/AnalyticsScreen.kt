@@ -134,7 +134,7 @@ fun AnalyticsContent(
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         val recoveryRateText = remember(uiState.recoveryRate) {
-                            String.format(java.util.Locale.getDefault(), "%.1f%%", uiState.recoveryRate)
+                            String.format(java.util.Locale.US, "%.1f%%", uiState.recoveryRate)
                         }
                         AnalyticsCard(
                             title = if (isHindi) "वसूली दर" else "Recovery Rate (Month)",
@@ -229,7 +229,7 @@ fun AnalyticsContent(
                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                         val percentageText = remember(item.totalDues, uiState.totalOutstandingDues) {
-                                            String.format(java.util.Locale.getDefault(), "%.1f%%", if (uiState.totalOutstandingDues > 0) (item.totalDues / uiState.totalOutstandingDues) * 100.0 else 0.0)
+                                            String.format(java.util.Locale.US, "%.1f%%", if (uiState.totalOutstandingDues > 0) (item.totalDues / uiState.totalOutstandingDues) * 100.0 else 0.0)
                                         }
                                         Text(
                                             text = percentageText,

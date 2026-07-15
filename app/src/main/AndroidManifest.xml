@@ -64,30 +64,6 @@
         </activity>
 
         <!--
-            VillageManagementActivity – Allows the user to add, edit, and
-            delete village names used when registering patients.
-        -->
-        <activity
-            android:name=".ui.villages.VillageManagementActivity"
-            android:exported="false" />
-
-        <!--
-            BackupActivity – UI for exporting/importing app data as JSON
-            files to/from device storage.
-        -->
-        <activity
-            android:name=".ui.backup.BackupActivity"
-            android:exported="false" />
-
-        <!--
-            AnalyticsActivity – Displays summary statistics: today/week/month
-            totals for medicine dues, payments received, and top patients.
-        -->
-        <activity
-            android:name=".ui.analytics.AnalyticsActivity"
-            android:exported="false" />
-
-        <!--
             VillageClinicLedgerProvider – Content provider used by the
             Room database layer (via the provider authority
             "com.villageclinicledger.provider") for data sharing.

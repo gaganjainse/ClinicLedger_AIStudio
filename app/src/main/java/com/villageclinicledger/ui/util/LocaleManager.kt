@@ -117,4 +117,11 @@ object LocaleManager {
         val days = diffMs / (1000 * 60 * 60 * 24)
         return if (isHindi) "$days दिन पहले" else "$days days ago"
     }
+
+    /**
+     * Formats a date and time into a human-readable string.
+     */
+    fun formatDateTime(date: java.util.Date): String {
+        return java.text.SimpleDateFormat("dd MMM yyyy, hh:mm a", java.util.Locale.US).format(date)
+    }
 }

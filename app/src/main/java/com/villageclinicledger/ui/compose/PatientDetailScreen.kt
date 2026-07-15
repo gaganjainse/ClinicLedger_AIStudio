@@ -81,6 +81,8 @@ fun PatientDetailScreen(
     var showAddTransactionDialog by remember { mutableStateOf<String?>(null) } 
     var showFamilyTreeDialog by remember { mutableStateOf(false) }
 
+    val profileUpdatedMsg = stringResource(R.string.profile_updated_toast)
+
     if (showFamilyTreeDialog && familyGroup != null) {
         FamilyTreeDialog(
             familyName = LocaleManager.getLocalizedText(familyGroup!!.name),
@@ -182,7 +184,7 @@ fun PatientDetailScreen(
             onAddPatient = { updated ->
                 viewModel.updatePatient(updated)
                 showEditPatientDialog = false
-                Toast.makeText(context, context.getString(R.string.profile_updated_toast), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, profileUpdatedMsg, Toast.LENGTH_SHORT).show()
             },
             existingPatient = patient
         )
@@ -540,7 +542,7 @@ fun TransactionTimelineItem(transaction: Transaction) {
                 Spacer(modifier = Modifier.width(12.dp))
 
                 Column(modifier = Modifier.weight(1f)) {
-                    val formattedDate = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()).format(transaction.createdAt)
+                    val formattedDate = LocaleManager.formatDateTime(transaction.createdAt)
                     Text(
                         text = LocaleManager.getLocalizedTransactionType(transaction.type, isHindi),
                         style = MaterialTheme.typography.bodyLarge,

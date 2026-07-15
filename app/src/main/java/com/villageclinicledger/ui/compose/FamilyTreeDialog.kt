@@ -35,7 +35,7 @@ fun FamilyTreeDialog(
     onDismiss: () -> Unit,
     onNavigateToPatient: (Long) -> Unit
 ) {
-    val isHindi = java.util.Locale.getDefault().language == "hi"
+    val isHindi = LocaleManager.LocalIsHindi.current
     
     // Categorize members into generations based on relationships
     val genMap = remember(members) { categorizeFamilyMembers(members) }

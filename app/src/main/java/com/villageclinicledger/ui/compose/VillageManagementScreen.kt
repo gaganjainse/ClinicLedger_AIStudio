@@ -50,7 +50,7 @@ fun VillageManagementContent() {
     val villages by repository.getAllVillages().observeAsState(emptyList())
     val familyGroups by repository.getAllFamilyGroups().observeAsState(emptyList())
 
-    var selectedTab by remember { mutableStateOf(0) }
+    var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf(stringResource(R.string.tab_villages), stringResource(R.string.tab_family_groups))
 
     var inputName by remember { mutableStateOf("") }
@@ -59,6 +59,10 @@ fun VillageManagementContent() {
     var villageToDelete by remember { mutableStateOf<Village?>(null) }
     var familyToDelete by remember { mutableStateOf<FamilyGroup?>(null) }
     var showAddFamilyDialog by remember { mutableStateOf(false) }
+
+    val addedSuccessMsg = stringResource(R.string.added_successfully_toast)
+    val villageDeletedMsg = stringResource(R.string.village_deleted_toast)
+    val familyDeletedMsg = stringResource(R.string.family_deleted_toast)
 
     Column(
         modifier = Modifier
@@ -108,7 +112,7 @@ fun VillageManagementContent() {
                                 withContext(Dispatchers.IO) {
                                     repository.insertVillage(Village(name = inputName.trim()))
                                 }
-                                Toast.makeText(context, context.getString(R.string.added_successfully_toast), Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, addedSuccessMsg, Toast.LENGTH_SHORT).show()
                                 inputName = ""
                             }
                         }
@@ -428,9 +432,9 @@ fun VillageManagementContent() {
                                 withContext(Dispatchers.IO) {
                                     repository.deleteVillage(villageToDelete!!)
                                 }
-                                Toast.makeText(context, context.getString(R.string.village_deleted_toast), Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, villageDeletedMsg, Toast.LENGTH_SHORT).show()
                             } catch (e: Exception) {
-                                Toast.makeText(context, context.getString(R.string.delete_failed_patients_linked, e.localizedMessage), Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, "Error: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                             }
                             villageToDelete = null
                         }
@@ -463,9 +467,9 @@ fun VillageManagementContent() {
                                 withContext(Dispatchers.IO) {
                                     repository.deleteFamilyGroup(familyToDelete!!)
                                 }
-                                Toast.makeText(context, context.getString(R.string.family_deleted_toast), Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, familyDeletedMsg, Toast.LENGTH_SHORT).show()
                             } catch (e: Exception) {
-                                Toast.makeText(context, context.getString(R.string.delete_failed_patients_linked, e.localizedMessage), Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, "Error: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                             }
                             familyToDelete = null
                         }
